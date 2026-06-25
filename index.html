@@ -34,6 +34,7 @@
   --grid:#222a38;--pie-stroke:#151a24;
 }
 [data-theme="dark"] .cst-done{background:#12342544;color:#2bd89a}
+[data-theme="dark"] .bar-ideal{background:#222c3c}
 [data-theme="dark"] .cst-miss{background:#3a1a1f;color:#f08799}
 [data-theme="dark"] .cst-rest{background:#1a2230;color:#6b7890}
 [data-theme="dark"] .hist-btn-del:hover{background:#3a1a1f;color:#f08799}
@@ -114,24 +115,28 @@ body{overflow-x:hidden}
 .panel.on{display:block}
 
 /* ── CARDS ── */
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;
-  box-shadow:var(--shadow)}
-.card-pad{padding:20px}
-.card-h{font-size:15px;font-weight:800;letter-spacing:-.01em;margin-bottom:3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);transition:box-shadow .18s ease, border-color .18s ease}
+.card:hover{box-shadow:var(--shadow-lg);border-color:color-mix(in srgb, var(--ink) 8%, var(--line))}
+.card-pad{padding:22px}
+.card-h{position:relative;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;letter-spacing:-.01em;margin-bottom:3px}
+.card-h::before{content:"";position:absolute;left:-13px;top:50%;transform:translateY(-50%);width:4px;height:16px;border-radius:3px;background:var(--brand)}
 .card-sub{font-size:12px;color:var(--ink2);font-weight:500}
 .card-anim{}
 
 .grid{display:grid;gap:16px}
-.g2{grid-template-columns:1fr 1fr}
-.g3{grid-template-columns:repeat(3,1fr)}
-.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 
 /* ── STAT TILES ── */
 .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.tile .ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;
-  justify-content:center;margin-bottom:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease}
+.tile:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.tile .ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;
+  justify-content:center;margin-bottom:10px;box-shadow:0 2px 6px rgba(20,30,60,.10)}
 .tile .ic svg{width:18px;height:18px}
 .tile .v{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1}
 .tile .l{font-size:11.5px;color:var(--ink2);font-weight:600;margin-top:3px}
@@ -167,28 +172,34 @@ body{overflow-x:hidden}
   display:inline-flex;align-items:center;justify-content:center;transition:all .15s}
 .cst-cfg:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
 /* ── CONSTÂNCIA estilo GitHub ── */
-.ghc-wrap{overflow-x:auto;padding-top:4px}
+.ghc-wrap{overflow-x:auto;overflow-y:hidden;padding:6px 0}
 .ghc-inner{width:fit-content;margin:0 auto}
 .ghc-months{display:grid;grid-template-columns:repeat(26,1fr);gap:3px;margin-bottom:4px;min-width:560px}
 .ghc-month{font-size:9px;font-weight:600;color:var(--ink2);white-space:nowrap}
 .ghc-grid{display:flex;gap:3px}
-.ghc-col{display:flex;flex-direction:column;gap:3px;flex:none;width:15px}
-.ghc-cell{aspect-ratio:1;border-radius:3px;background:var(--bg);
+.ghc-col{display:flex;flex-direction:column;gap:3px;flex:none;width:14px}
+.ghc-cell{width:14px;height:14px;flex:none;border-radius:3px;background:var(--bg);
   border:1px solid color-mix(in srgb, var(--ink2) 10%, transparent);transition:transform .1s}
 .ghc-cell:hover{transform:scale(1.25);z-index:2}
 .ghc-rest{background:color-mix(in srgb, var(--ink2) 8%, var(--bg))}
 .ghc-future{background:var(--bg);border-color:color-mix(in srgb, var(--ink2) 8%, transparent)}
-.ghc-l1{background:#9be9a8;border-color:#9be9a8}
-.ghc-l2{background:#40c463;border-color:#40c463}
-.ghc-l3{background:#30a14e;border-color:#30a14e}
-.ghc-l4{background:#216e39;border-color:#216e39}
-.ghc-legend{display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:8px;
-  font-size:10px;color:var(--ink2);font-weight:600}
+.ghc-empty{background:transparent;border-color:transparent}
+.ghc-l1{background:#ddd6fe;border-color:#ddd6fe}
+.ghc-l2{background:#a78bfa;border-color:#a78bfa}
+.ghc-l3{background:#7c3aed;border-color:#7c3aed}
+.ghc-l4{background:#5b21b6;border-color:#5b21b6}
+.ghc-mstart{margin-left:0}
+.ghc-grid.ghc-spaced .ghc-mstart{margin-left:12px}
+.ghc-legend{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-top:8px;
+  font-size:10px;color:var(--ink2);font-weight:600;flex-wrap:wrap}
+.ghc-legend-scale{display:flex;align-items:center;gap:4px}
+.ghc-msg{font-size:10px;font-weight:600;color:var(--ink2)}
+.ghc-msg b{font-weight:800;color:var(--ink)}
 .ghc-legend .ghc-cell{width:11px;height:11px;flex:none;aspect-ratio:auto}
-[data-theme="dark"] .ghc-l1{background:#0e4429;border-color:#0e4429}
-[data-theme="dark"] .ghc-l2{background:#006d32;border-color:#006d32}
-[data-theme="dark"] .ghc-l3{background:#26a641;border-color:#26a641}
-[data-theme="dark"] .ghc-l4{background:#39d353;border-color:#39d353}
+[data-theme="dark"] .ghc-l1{background:#3b2a6b;border-color:#3b2a6b}
+[data-theme="dark"] .ghc-l2{background:#6d4ed6;border-color:#6d4ed6}
+[data-theme="dark"] .ghc-l3{background:#9b7cf6;border-color:#9b7cf6}
+[data-theme="dark"] .ghc-l4{background:#c4b5fd;border-color:#c4b5fd}
 @media(max-width:920px){
   .cst-head{flex-direction:row;gap:8px}
 }
@@ -228,7 +239,9 @@ body{overflow-x:hidden}
 .weekly-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
 .prog-head{flex-direction:column;align-items:stretch;gap:10px}
 .prog-datenav{margin-top:0;align-self:flex-start}
-.prog-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.prog-row{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;justify-content:space-between}
+.prog-head .seg-toggle{min-width:0;flex:0 1 auto}
+.prog-head .seg-toggle button{padding:5px 8px;font-size:10.5px;white-space:nowrap}
 
 /* ── PAINEL DE DISCIPLINAS ── */
 .painel-scroll{overflow-x:auto}
@@ -276,11 +289,61 @@ body{overflow-x:hidden}
 .pie-wrap{display:flex;flex-direction:column;height:100%;min-height:300px}
 .pie-donut{display:flex;justify-content:center;align-items:center;flex:1;padding:8px 0}
 .pie-legend{display:flex;flex-direction:column;justify-content:space-around;gap:9px;flex:1;padding-top:6px}
-.pl-row{display:flex;align-items:center;gap:8px;font-size:12.5px}
-.pl-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
-.pl-name{font-weight:600;white-space:nowrap}
+.pl-row{display:flex;align-items:center;gap:9px;font-size:12.5px}
+.pl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pl-name{font-weight:700;white-space:nowrap;min-width:74px}
+.pl-mini{flex:1;height:7px;background:var(--bg);border-radius:4px;overflow:hidden;min-width:30px}
+.pl-mini i{display:block;height:100%;border-radius:4px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 .pl-line{flex:1;border-bottom:1px dotted var(--line2);min-width:10px;margin:0 2px}
-.pl-time{font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--ink2);white-space:nowrap}
+.pl-time{font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--ink2);white-space:nowrap;min-width:34px;text-align:right}
+/* Desempenho em questões — linhas modernas */
+.perf-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.perf-row:last-of-type{border-bottom:none}
+.perf-dot{width:10px;height:10px;border-radius:50%;flex:none}
+.perf-name{width:96px;flex:none;font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.perf-track{flex:1;height:9px;background:var(--bg);border-radius:5px;overflow:hidden;min-width:30px}
+.perf-track i{display:block;height:100%;border-radius:5px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.perf-badge{font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;min-width:44px;text-align:center}
+.perf-q{font-size:11px;font-weight:600;color:var(--ink2);min-width:34px;text-align:right;font-family:'JetBrains Mono',monospace}
+.perf-total{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.perf-total>span:first-child{font-weight:700}
+.perf-total-v{font-weight:800;color:var(--brand);font-family:'JetBrains Mono',monospace}
+/* card Calendário (Visão geral) */
+.calcard-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.calcard-head .card-h{margin-bottom:0;flex:none}
+.calcard-nav{flex:1;display:flex;align-items:center;justify-content:center;gap:10px}
+.calcard-range{font-size:13px;font-weight:800;font-family:'JetBrains Mono',monospace;min-width:110px;text-align:center;white-space:nowrap}
+.calcard-arw{width:30px;height:30px;flex:none;border:1px solid var(--line2);border-radius:9px;background:var(--card);color:var(--ink2);font-size:17px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.calcard-arw:hover{color:var(--brand);border-color:var(--brand)}
+.calcard-expand{width:34px;height:34px;flex:none;border:1px solid var(--line2);border-radius:10px;background:var(--card);color:var(--ink2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.calcard-expand:hover{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
+.calcard-expand svg{width:18px;height:18px}
+/* detalhe do dia (showCalDay) + checkbox de concluir */
+.cd-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.cd-row:last-of-type{border-bottom:none}
+.cd-bar{width:6px;align-self:stretch;min-height:36px;border-radius:3px;flex:none}
+.cd-name{font-size:14px;font-weight:800;line-height:1.2}
+.cd-sub{font-size:12px;color:var(--ink2);margin-top:2px}
+.cd-check{width:34px;height:34px;flex:none;border:2px solid var(--line2);border-radius:10px;background:var(--bg);
+  color:color-mix(in srgb,var(--ink2) 35%,transparent);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cd-check svg{width:17px;height:17px}
+.cd-check:hover{border-color:var(--green);color:var(--green);background:color-mix(in srgb,var(--green) 10%,var(--bg))}
+.cd-check.on{background:var(--green);border-color:var(--green);color:#fff}
+.cd-done .cd-name{text-decoration:line-through;opacity:.55}
+.cd-done .cd-bar{opacity:.4}
+/* botão concluir no detalhe da tarefa */
+.td-conclude{width:100%;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;
+  padding:11px;border:2px solid var(--line2);border-radius:11px;background:var(--bg);color:var(--ink2);
+  font-size:13.5px;font-weight:800;cursor:pointer;transition:all .15s}
+.td-conclude:hover{border-color:var(--green);color:var(--green)}
+.td-conclude .td-check{width:22px;height:22px;border-radius:7px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;color:inherit}
+.td-conclude .td-check svg{width:13px;height:13px}
+.td-conclude.on{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,var(--bg));color:var(--green)}
+.td-conclude.on .td-check{background:var(--green);border-color:var(--green);color:#fff}
+@media(max-width:520px){
+  .calcard-head{flex-wrap:wrap}
+  .calcard-nav{order:3;flex-basis:100%;margin-top:8px}
+}
 .donut-flex{display:flex;flex-direction:column;align-items:stretch;gap:18px}
 .donut-flex.chart-fill{justify-content:center}
 .donut-box{position:relative;width:170px;height:170px;flex-shrink:0;align-self:center}
@@ -352,16 +415,22 @@ body{overflow-x:hidden}
 .cfg-grid{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:12px}
 .cfg-tile{min-width:0;border:1px solid var(--line2);border-radius:14px;padding:12px;background:var(--card);
   display:flex;flex-direction:column;gap:10px}
-.cfg-head{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
-.cfg-name{font-weight:800;font-size:13.5px;line-height:1.15}
+.cfg-head{display:flex;flex-direction:column;align-items:stretch;gap:5px;text-align:center}
+.cfg-name{font-weight:800;font-size:13.5px;line-height:1.15;text-align:center}
+.cfg-head .peso-tipo{display:block;width:100%;text-align:center}
 .cfg-blocks{display:flex;flex-direction:column;gap:9px}
 .cfg-block{border:1px solid var(--line);border-radius:11px;padding:9px;background:var(--bg)}
 .cfg-block>label{display:block;font-size:9px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.03em;color:var(--ink2);margin-bottom:7px;line-height:1.2}
-.cfg-peso{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px}
-.cfg-peso .peso-prog{flex:0 0 100%;min-width:0}
-.cfg-blocks .peso-btn,.cfg-blocks .ord-btn{width:24px;height:24px;font-size:11px;flex:none}
-.cfg-order{display:flex;align-items:center;justify-content:center;gap:8px}
+  letter-spacing:.03em;color:var(--ink2);margin-bottom:7px;line-height:1.2;text-align:center}
+.cfg-peso{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:4px}
+.cfg-peso .peso-prog{flex:1 1 auto;min-width:0;background:var(--track,#d9dee9)}
+.cfg-blocks .peso-btn,.cfg-blocks .ord-btn{flex:none;border:none;background:none;padding:0;
+  color:var(--ink2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .15s}
+.cfg-blocks .peso-btn{width:18px;height:24px;font-size:20px;font-weight:400;line-height:1}
+.cfg-blocks .ord-btn{width:24px;height:24px;font-size:15px;font-weight:800;line-height:1}
+.cfg-blocks .peso-btn:hover,.cfg-blocks .ord-btn:hover:not(:disabled){color:var(--brand);background:none;border:none}
+.cfg-blocks .ord-btn:disabled{opacity:.3;cursor:not-allowed}
+.cfg-order{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .cfg-pos{font-size:14px;font-weight:800;min-width:22px;text-align:center;font-family:'JetBrains Mono',monospace}
 .cfg-blocks .dp-trigger{padding:7px 8px;font-size:11.5px;gap:5px}
 .cfg-blocks .dp-trigger .agenda-lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
@@ -372,6 +441,130 @@ body{overflow-x:hidden}
 @media(max-width:400px){
   .cfg-grid{grid-template-columns:1fr}
 }
+/* tile: tag tipo, ordem e engrenagem */
+.cfg-tipo-row{display:flex;justify-content:center}
+.cfg-tile .cfg-order .ord-btn{border:none;background:none;color:var(--ink2);font-size:16px;font-weight:800;width:24px;height:24px}
+.cfg-tile .cfg-order .ord-btn:hover:not(:disabled){color:var(--brand);background:none}
+.cfg-tile .cfg-order .ord-btn:disabled{opacity:.3;cursor:not-allowed}
+.cfg-gear{width:30px;height:30px;margin:2px auto 0}
+.cfg-gear svg{width:15px;height:15px}
+/* modal matéria: peso preto, stepper digitável, duas colunas, cor */
+.cfg-peso .peso-num{color:#161616}
+[data-theme="dark"] .cfg-peso .peso-num{color:#0c0c0c}
+.cfg-peso .peso-btn{flex:none}
+.nctl{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0}
+.nctl-b{width:32px;height:32px;flex:none;border:1px solid var(--line2);border-radius:9px;background:var(--card);
+  color:var(--ink);font-size:18px;font-weight:800;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.nctl-b:hover{border-color:var(--brand);color:var(--brand)}
+.nctl-mid{display:flex;align-items:baseline;justify-content:center;gap:1px;flex:1}
+.nctl-i{width:3.2em;border:none;background:transparent;text-align:center;color:var(--ink);
+  font-size:20px;font-weight:800;font-family:'JetBrains Mono',monospace;border-bottom:2px solid transparent;padding:0}
+.nctl-i:focus{outline:none;border-bottom-color:var(--brand)}
+.nctl-suf{font-size:14px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.two-col{display:flex;gap:10px}
+.two-col>*{flex:1 1 0;min-width:0}
+.color-row{display:flex;flex-wrap:wrap;gap:8px;padding:8px 0;align-items:center;justify-content:center}
+.color-sw{width:30px;height:30px;border-radius:9px;border:2px solid transparent;cursor:pointer;padding:0}
+.color-sw.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--card) inset}
+.color-custom{width:30px;height:30px;border-radius:9px;border:2px dashed var(--line2);position:relative;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);font-weight:800;font-size:18px}
+.color-custom input{position:absolute;inset:0;opacity:0;cursor:pointer}
+/* modal matéria — seções harmônicas */
+.mt-box{border:1px solid var(--line2);border-radius:13px;padding:10px 12px;margin:9px 0;background:var(--card)}
+.mt-box>.cfg-box-h{font-size:11px;margin:0 0 8px}
+.mt-sub{background:var(--bg);border-radius:10px;padding:6px 10px;margin-top:8px}
+.mt-sub:first-of-type{margin-top:0}
+.mt-sub-h{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--ink2);text-align:center;margin-bottom:1px}
+.mt-mini{background:var(--bg);border-radius:10px;padding:6px 8px}
+.mt-note{font-size:10px;color:var(--ink2);line-height:1.4;text-align:center;margin-top:9px;padding:0 4px}
+.mt-box .nctl{padding:2px 0}
+.mt-box .nctl-b{width:30px;height:30px;font-size:17px}
+.mt-box .nctl-i{font-size:18px;width:2.8em}
+.mt-box .nctl-suf{font-size:13px}
+.mt-box .cfg-peso{margin-top:2px}
+.mt-box .peso-prog{height:24px}
+.mt-box .color-row{padding:4px 0}
+.mt-box .color-sw,.mt-box .color-custom{width:28px;height:28px}
+/* tile menor e mais leve */
+.cfg-tile{padding:10px 9px;gap:7px}
+.cfg-name{font-size:12px}
+.cfg-tile .peso-tipo{font-size:9.5px;padding:2px 9px}
+.cfg-tile .cfg-block{padding:8px 7px}
+.cfg-tile .cfg-block>label{font-size:8.5px;margin-bottom:5px}
+.cfg-tile .cfg-pos{font-size:13px}
+/* ── Cronograma de estudos (Gantt) ── */
+.gantt{position:relative;--gantt-day:#eef1f6;--gantt-month:#c8d0de}
+[data-theme="dark"] .gantt{--gantt-day:#222a3a;--gantt-month:#3a445c}
+.gantt-axis{margin-bottom:4px}
+.gantt-axis-track{position:relative;margin-left:120px;height:16px}
+.gantt-tick{position:absolute;top:0;transform:translateX(-50%);font-size:10px;color:var(--ink2);font-weight:600;white-space:nowrap}
+.gantt-body{position:relative;padding:2px 0}
+.gantt-row{display:flex;align-items:center;height:38px;border-radius:9px;transition:background .15s}
+.gantt-row:hover{background:color-mix(in srgb, var(--ink) 4%, transparent)}
+.gantt-label{width:120px;flex:none;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px;padding-left:4px}
+.gantt-dot{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 0 3px color-mix(in srgb, currentColor 18%, transparent)}
+.gantt-track{position:relative;flex:1;height:100%;border-left:1px solid var(--line);background:var(--gantt-trackbg)}
+.gantt-bar{position:absolute;top:8px;height:22px;border-radius:8px;cursor:default;min-width:6px;
+  box-shadow:0 2px 7px rgba(20,35,59,.20);transition:box-shadow .15s}
+.gantt-bar::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 52%, rgba(0,0,0,.10))}
+.gantt-row:hover .gantt-bar{box-shadow:0 4px 12px rgba(20,35,59,.28)}
+.gantt-bar-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:10.5px;font-weight:800;line-height:1;color:#fff;white-space:nowrap;pointer-events:none;z-index:2;
+  text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.gantt-handle{position:absolute;top:-1px;width:13px;height:24px;cursor:ew-resize;border-radius:7px;z-index:3}
+.gantt-handle::after{content:"";position:absolute;top:6px;bottom:6px;left:50%;transform:translateX(-50%);width:2px;background:rgba(255,255,255,.95);border-radius:2px}
+.gantt-h-l{left:-4px} .gantt-h-r{right:-4px}
+.gantt-today{position:absolute;top:-2px;bottom:0;width:2px;background:#ef4444;z-index:5;border-radius:2px;animation:ganttPulse 1.4s ease-in-out infinite}
+.gantt-today-lbl{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;font-size:8px;font-weight:800;padding:1px 5px;border-radius:4px;letter-spacing:.06em}
+@keyframes ganttPulse{0%,100%{opacity:1}50%{opacity:.3}}
+.gantt-tip{position:absolute;top:-6px;transform:translateX(-50%);background:var(--ink,#15233b);color:#fff;font-size:11px;font-weight:700;padding:4px 9px;border-radius:7px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s;z-index:20}
+.gantt-tip.show{opacity:1}
+@media(max-width:640px){
+  .gantt-axis{margin-bottom:0}
+  .gantt-axis-track{height:32px;overflow:visible}
+  .gantt-tick{font-size:9px;line-height:1}
+  .gantt-tick-lo{top:16px}
+  .gantt-tick::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);
+    width:1px;background:var(--gantt-month)}
+  .gantt-tick:not(.gantt-tick-lo)::after{height:28px}
+  .gantt-tick-lo::after{height:12px}
+}
+/* ── Revisões (módulos) ── */
+.revm-grid{display:flex;gap:14px;align-items:stretch}
+.revm-tile{flex:1 1 0;min-width:0;position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:18px;
+  padding:18px 12px 14px;background:var(--card);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;gap:11px;transition:transform .16s, box-shadow .16s, border-color .16s}
+.revm-tile::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--accent,#6366f1)}
+.revm-tile:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(20,35,59,.10);border-color:color-mix(in srgb,var(--accent) 45%,var(--line2))}
+.revm-main{display:flex;align-items:baseline;gap:4px;justify-content:center;line-height:1;max-width:100%;margin-top:4px}
+.revm-num{font-size:34px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1}
+.revm-day{font-size:14px;font-weight:800}
+.revm-box{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:8px;text-align:center}
+.revm-box-l{display:block;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ink2);margin-bottom:3px}
+.revm-box-v{display:block;font-size:15px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1;white-space:nowrap}
+.revm-cap{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.revm-gear{width:34px;height:34px;flex:none;border-radius:50%;background:var(--bg);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);padding:0;transition:all .15s}
+.revm-gear:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--card))}
+.revm-gear svg{width:15px;height:15px}
+.revm-add{flex:0 1 84px;min-width:50px;border:2px dashed var(--line2);border-radius:18px;background:transparent;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink2);transition:all .16s}
+.revm-add:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft);transform:translateY(-3px)}
+.revm-add svg{width:30px;height:30px}
+/* ── Questões / Horas ideais (tiles por matéria) ── */
+.mtcfg-grid{display:flex;gap:10px;align-items:stretch}
+.mtcfg-tile{flex:1 1 0;min-width:0;position:relative;border:1px solid var(--line2);border-radius:14px;
+  padding:12px 6px;background:var(--card);text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.mtcfg-name{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;width:100%;text-align:center;
+  background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:5px 4px;line-height:1.12;
+  white-space:normal;overflow-wrap:anywhere;display:flex;align-items:center;justify-content:center;min-height:32px}
+.mtcfg-val{font-size:clamp(15px,3.2vw,22px);font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1;
+  display:flex;flex-direction:column;align-items:center;gap:3px}
+.mtcfg-unit{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink2);font-family:inherit}
+.mtcfg-gear{width:28px;height:28px}
+.mtcfg-gear svg{width:14px;height:14px}
 /* ── SIMULADOS ── */
 .sim-top{display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:18px}
 .sim-left{display:flex;flex-direction:column;gap:14px}
@@ -486,7 +679,8 @@ body{overflow-x:hidden}
 .sem-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:start}
 .sem-col{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;
   display:flex;flex-direction:column;min-height:160px}
-.sem-colh{padding:10px 8px;text-align:center;border-bottom:1px solid var(--line);background:var(--bg)}
+.sem-colh{padding:10px 8px;text-align:center;border-bottom:1px solid var(--line);background:var(--bg);cursor:pointer;transition:background .15s}
+.sem-colh:hover{background:color-mix(in srgb,var(--brand) 12%,var(--bg))}
 .sem-colh.sem-today{background:var(--green);}
 .sem-dn{font-size:12px;font-weight:700;color:var(--ink)}
 .sem-colh.sem-today .sem-dn{color:#fff}
@@ -608,6 +802,8 @@ body{overflow-x:hidden}
 .cal-mat{font-size:9px;font-weight:700;line-height:1.15;margin-top:2px;
   overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .cal-stripe{height:3px;border-radius:2px;margin-top:auto}
+.cal-tags{display:flex;gap:3px;margin-top:3px}
+.cal-tag{width:6px;height:6px;border-radius:50%;flex:none}
 .cal-h{font-size:9px;color:var(--ink2);font-weight:600;margin-top:3px}
 .cal-icons{position:absolute;top:5px;right:5px;font-size:8px}
 
@@ -632,21 +828,68 @@ body{overflow-x:hidden}
 .pm-barline{display:flex;align-items:center;gap:10px}
 .pm-bar{flex:1;display:flex;gap:2px;height:26px;border-radius:7px;overflow:hidden}
 .pm-seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;min-width:0}
+/* modal pomodoro compacto */
+.pm-title{font-size:16px;font-weight:800;text-align:center;margin-bottom:12px}
+.pm-summary{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+.pm-liq{display:flex;align-items:baseline;justify-content:center;gap:8px;margin-bottom:9px}
+.pm-liq-l{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2)}
+.pm-liq-v{font-size:21px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1}
+.pm-legend{display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:center;margin-top:9px}
+.pm-legend span{display:flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:var(--ink2)}
+.pm-legend i{width:9px;height:9px;border-radius:3px;flex:none}
+.pm-two{display:flex;gap:8px}
+.pm-three{display:flex;gap:8px}
+.pm-sect{margin-top:11px}
+.pm-sect-h{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--ink2);margin-bottom:7px}
+.pm-tag{width:10px;height:10px;border-radius:3px;flex:none}
+.pm-mini{flex:1 1 0;min-width:0;text-align:center}
+.pm-mini-l{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--ink2);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-mini-ctl{display:flex;align-items:center;justify-content:space-between;gap:3px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:4px}
+.pm-mini-b{width:24px;height:24px;flex:none;border:none;border-radius:7px;background:var(--card);box-shadow:0 1px 2px rgba(20,35,59,.12);color:var(--ink2);font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .15s}
+.pm-mini-b:hover{color:var(--brand)}
+.pm-mini-i{width:2.2em;min-width:0;border:none;background:transparent;text-align:center;font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--ink);padding:0;border-bottom:2px solid transparent}
+.pm-mini-i:focus{outline:none;border-bottom-color:var(--brand)}
 .pm-meta{font-size:11px;color:var(--ink2);font-weight:600;margin-top:6px}
+.pm-month{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin-bottom:14px;background:var(--bg)}
+.pm-month-arw{width:36px;height:36px;flex:none;border:1px solid var(--line2);border-radius:10px;background:var(--card);
+  color:var(--ink);font-size:22px;font-weight:800;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.pm-month-arw:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
+.pm-month-mid{text-align:center;flex:1}
+.pm-month-num{font-size:26px;font-weight:800;line-height:1;font-family:'JetBrains Mono',monospace}
+.pm-month-numwrap{display:flex;align-items:baseline;justify-content:center;gap:1px}
+.pm-month-input{width:2.8em;max-width:100%;border:none;background:transparent;text-align:center;color:var(--ink);
+  font-size:clamp(18px,5vw,26px);font-weight:800;line-height:1;font-family:'JetBrains Mono',monospace;padding:0 2px;
+  border-bottom:2px solid transparent;-moz-appearance:textfield}
+.pm-month-input::-webkit-outer-spin-button,.pm-month-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.pm-month-input:focus{outline:none;border-bottom-color:var(--brand)}
+.pm-month-suf{font-size:clamp(13px,3.4vw,17px);font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--ink)}
+.pm-month-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2);margin-top:3px}
 .pm-meta b{color:var(--ink);font-weight:800}
 /* ── Metas pomodoro: grade de donuts ── */
-.pmd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px 16px;margin-top:6px}
-.pmd-tile{display:flex;flex-direction:column;align-items:center;text-align:center}
-.pmd-head{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
-.pmd-title{font-size:13.5px;font-weight:800;text-transform:capitalize}
-.pmd-head .goal-gear{width:28px;height:28px}
-.pmd-head .goal-gear svg{width:15px;height:15px}
-.pmd-donut{position:relative;width:150px;height:150px}
+.pmd-grid{display:flex;gap:14px;align-items:stretch;margin-top:6px}
+.pmd-tile{flex:1 1 0;min-width:0;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;
+  text-align:center;gap:11px;border:1px solid var(--line2);border-radius:18px;padding:18px 12px 14px;background:var(--card);
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease}
+.pmd-tile::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--accent,#ff6b57)}
+.pmd-tile:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(20,35,59,.10);border-color:color-mix(in srgb,var(--accent) 45%,var(--line2))}
+.pmd-title{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;width:auto;text-align:center;
+  border:none;border-radius:999px;padding:4px 12px;white-space:nowrap}
+.pmd-donut{position:relative;width:100%;max-width:118px;aspect-ratio:1;margin:0 auto}
 .pmd-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.pmd-center .big{font-size:19px;font-weight:800;line-height:1;letter-spacing:-.01em}
-.pmd-center .lbl{font-size:9px;color:var(--ink2);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
-.pmd-stats{margin-top:12px;font-size:12px;color:var(--ink2);font-weight:600;line-height:1.7}
-.pmd-stats b{color:var(--ink);font-weight:800}
+.pmd-center .big{font-size:16px;font-weight:800;line-height:1;letter-spacing:-.01em}
+.pmd-center .lbl{font-size:8px;color:var(--ink2);font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+.pmd-stat{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:9px 8px;text-align:center}
+.pmd-stat-l{display:block;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ink2);margin-bottom:3px}
+.pmd-stat-v{display:block;font-size:19px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1}
+.pmd-tile .pmd-gear{width:34px;height:34px;border-radius:50%;background:var(--bg);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);padding:0;margin-top:1px;transition:all .15s}
+.pmd-tile .pmd-gear:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--card))}
+.pmd-tile .pmd-gear svg{width:15px;height:15px}
+.pmd-add{flex:0 1 84px;min-width:50px;border:2px dashed var(--line2);border-radius:18px;background:transparent;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink2);transition:all .16s}
+.pmd-add:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft);transform:translateY(-3px)}
+.pmd-add svg{width:30px;height:30px}
 .cfg-box{border:1px solid var(--line2);border-radius:12px;padding:6px 14px;margin:10px 0}
 .cfg-box-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--ink2);margin:8px 0 2px}
 .cfg-box .cfg-row:last-child{border-bottom:none}
@@ -670,8 +913,14 @@ body{overflow-x:hidden}
 #pieChart.chart-fill{justify-content:stretch}
 #pieChart .pie-wrap{flex:1}
 .bar-col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%}
-.bar-fill-wrap{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center}
-.bar-fill{width:68%;border-radius:6px 6px 0 0;transition:height .6s cubic-bezier(.4,0,.2,1);min-height:3px;position:relative}
+.bar-fill-wrap{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative}
+.bar-ideal{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:68%;min-height:3px;
+  background:#e6eaf2;border-radius:6px 6px 0 0;z-index:0}
+.bar-ideal-val{position:absolute;top:3px;left:0;right:0;text-align:center;font-size:10px;font-weight:800;
+  color:var(--ink2);white-space:nowrap}
+.bar-fill{width:68%;border-radius:6px 6px 0 0;transition:height .6s cubic-bezier(.4,0,.2,1);min-height:3px;position:relative;z-index:1}
+.bar-fill-val{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:3px;
+  text-align:center;font-size:10px;font-weight:800;color:var(--ink);white-space:nowrap}
 .bar-val{font-size:12px;font-weight:800;color:var(--ink2);white-space:nowrap;text-transform:uppercase}
 .bar-lbl{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;color:var(--ink2);
   text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
@@ -730,10 +979,10 @@ body{overflow-x:hidden}
 .reg-check{display:flex;align-items:center;gap:9px;margin-top:10px;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--ink)}
 .reg-check input{width:17px;height:17px;accent-color:var(--brand);cursor:pointer}
 .reg-hint{font-size:11px;color:var(--ink2);margin-top:4px;margin-left:1px}
-.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.rev-opt{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;
-  border:1.5px solid var(--line);border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;
-  color:var(--ink2);transition:all .15s}
+.rev-grid{display:flex;gap:8px;margin-top:10px;align-items:stretch}
+.rev-opt{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 6px;
+  border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;
+  color:var(--ink2);transition:all .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rev-opt.on{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
 .rev-opt input{display:none}
 
@@ -916,7 +1165,7 @@ body{overflow-x:hidden}
   .logo-txt,.nav-item span:not(.badge),.side-foot{display:none}
   .nav-item{justify-content:center}
   .nav-item .badge{display:none}
-  .g2,.g3,.g4{grid-template-columns:1fr}
+  .g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}
   .tiles{grid-template-columns:1fr 1fr}
   .donut-flex{flex-direction:column;align-items:stretch}
   .donut-box{align-self:center}
@@ -1010,6 +1259,57 @@ body{overflow-x:hidden}
 @media(max-width:380px){
   .tiles{grid-template-columns:1fr}
   .nav-item span:not(.badge){max-width:48px}
+}
+
+/* ===== Responsividade global: conteúdo sempre dentro do card ===== */
+*{min-width:0}                                   /* deixa itens de flex/grid encolherem em vez de estourar */
+img,svg,canvas,video,table{max-width:100%}
+.card-h,.card-sub,.cst-title,.pl-name,.tile .l,.cfg-name,.pmd-title,.revm-day,.sem-task,.dleg-name{
+  overflow-wrap:anywhere;word-break:break-word}
+/* contêineres de gráficos largos rolam dentro do card, sem empurrar o layout */
+.ghc-wrap,.sem-board{max-width:100%;overflow-x:auto}
+/* números/títulos grandes fluidos (encolhem em telas/cards estreitos) */
+.tile .v{font-size:clamp(17px,4.2vw,26px);line-height:1.05;overflow-wrap:anywhere}
+.donut-center .big{font-size:clamp(18px,4.4vw,30px)}
+.pmd-center .big{font-size:clamp(11px,3.2vw,16px)}
+.revm-num{font-size:clamp(20px,6vw,32px)}
+.rev-time,.pm-month-num{font-size:clamp(18px,5vw,26px)}
+.card-h{font-size:clamp(14px,2.4vw,16px)}
+.cst-title{font-size:clamp(14px,2.6vw,17px)}
+@media(max-width:520px){
+  .pmd-title{font-size:8.5px;padding:4px 9px}
+  .pmd-stat-l{font-size:7.5px}
+  .pmd-stat-v{font-size:17px}
+  .revm-day{font-size:12px}
+  .revm-box-v{font-size:13px}
+}
+/* ===== Cards de matéria (Configuração de matérias) — visual moderno ===== */
+.cfg-grid{gap:14px}
+.cfg-tile{position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:18px;
+  padding:18px 12px 14px;background:var(--card);display:flex;flex-direction:column;align-items:center;gap:11px;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease}
+.cfg-tile::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--accent,#00c2a8)}
+.cfg-tile:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(20,35,59,.10);border-color:color-mix(in srgb, var(--accent) 45%, var(--line2))}
+.cfg-tile .cfg-tipo{font-size:9px;font-weight:800;padding:4px 11px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.cfg-tile .cfg-name{font-size:13.5px;font-weight:800;text-align:center;line-height:1.12;letter-spacing:-.01em}
+.cfg-ordbox{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:9px 8px;text-align:center}
+.cfg-ord-cap{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ink2);margin-bottom:6px}
+.cfg-ord{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.cfg-ord-btn{width:28px;height:28px;flex:none;border:none;border-radius:9px;background:var(--card);
+  box-shadow:0 1px 3px rgba(20,35,59,.12);color:var(--ink2);font-size:17px;font-weight:800;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:transform .14s, color .14s}
+.cfg-ord-btn:hover:not(:disabled){color:var(--accent);transform:scale(1.12)}
+.cfg-ord-btn:active:not(:disabled){transform:scale(.94)}
+.cfg-ord-btn:disabled{opacity:.28;cursor:not-allowed}
+.cfg-ord-num{font-size:19px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1}
+.cfg-tile .cfg-gear{width:34px;height:34px;border-radius:50%;background:var(--bg);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);margin-top:1px;transition:all .15s;padding:0}
+.cfg-tile .cfg-gear:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb, var(--accent) 10%, var(--card))}
+.cfg-tile .cfg-gear svg{width:15px;height:15px}
+@media(max-width:520px){
+  .cfg-tile{padding:14px 9px 12px;gap:9px;border-radius:15px}
+  .cfg-tile .cfg-name{font-size:12px}
+  .cfg-ord-num{font-size:17px}
 }
 </style>
 </head>
@@ -1127,15 +1427,26 @@ function defaultState(){
     simulados:[],      // {date, name, tipo, tempo, total, acertos, brancos, erros}
     cycleOrder:null,   // ordem das matérias no ciclo (array de ids) — null = padrão do edital
     agenda:{},         // discId -> data (dd/mm/aaaa) em que a matéria entra no cronograma
+    cronoEnd:{},       // discId -> data de fim no cronograma (Gantt)
+    revisoes:[         // módulos de revisão: espaçamento (dias) e duração (min)
+      {spacing:1, duration:15},
+      {spacing:7, duration:20},
+      {spacing:30, duration:30}
+    ],
+    questoes:{},       // discId -> {qtd, month, accMin, accIdeal}
+    horasIdeais:{},    // discId -> {ideal, min, month}
+    discColors:{},     // discId -> cor personalizada (aplicada em todo o app)
     theme:'light',     // 'light' | 'dark'
   };
 }
 let S = loadState();
+function applyDiscColors(){ if(typeof DMAP==='undefined'||!S.discColors) return; Object.keys(S.discColors).forEach(id=>{ if(DMAP[id]) DMAP[id].color=S.discColors[id]; }); }
 function save(){ localStorage.setItem(SKEY, JSON.stringify(S)); }
 
 // ════════ HELPERS ════════
 const DISC = DATA.disciplines;
 const DMAP = {}; DISC.forEach(d=>DMAP[d.id]=d);
+applyDiscColors();
 // ── ordem do ciclo (configurável em "Metas de ciclo") ──
 function defaultCycleOrder(){ const seen=[]; DATA.cycle.forEach(id=>{ if(!seen.includes(id)) seen.push(id); }); return seen; }
 function cycleOrder(){ return (S.cycleOrder && S.cycleOrder.length) ? S.cycleOrder.filter(id=>DMAP[id]) : defaultCycleOrder(); }
@@ -1196,11 +1507,13 @@ function metaQuestoes(at){ // meta semanal de questões na data informada (padr�
 // ── Metas Pomodoro: 5 períodos (1°..4° mês + Demais), cada um com blocos/tempos/matérias ──
 const POMO_META_LABELS=['1° mês','2° mês','3° mês','4° mês','Demais meses'];
 function pomoMetas(){
-  if(!S.pomoMetas || S.pomoMetas.length!==5){
-    S.pomoMetas=POMO_META_LABELS.map(()=>({work:25,short:5,long:15,blocks:4,materias:3}));
+  if(!Array.isArray(S.pomoMetas) || !S.pomoMetas.length){
+    S.pomoMetas=[1,2,3,4,5].map(m=>({month:m,work:25,short:5,long:15,blocks:4}));
     S.pomoMetasFocoV=1;
   }
   if(!S.pomoMetasFocoV){ S.pomoMetas.forEach(c=>{ c.blocks=Math.max(1,Math.round((c.blocks||8)/2)); }); S.pomoMetasFocoV=1; }
+  S.pomoMetas.forEach((c,i)=>{ if(typeof c.month!=='number') c.month=i+1; });
+  S.pomoMetas.sort((a,b)=>a.month-b.month);
   return S.pomoMetas;
 }
 function pomoMetaBlocks(cfg){ // blocks = nº de blocos de FOCO; pausa longa (azul) a cada 4 focos quando há mais blocos a seguir
@@ -1211,10 +1524,14 @@ function pomoMetaBlocks(cfg){ // blocks = nº de blocos de FOCO; pausa longa (az
   }
   return out;
 }
-function pomoMetaIndexForDate(date){ // qual período (0..4) para uma data, com base nos meses desde o início da progressão
+function pomoMetaIndexForDate(date){ // qual esquema aplicar numa data, pelo mês desde o início da progressão
+  const arr=pomoMetas();
   const g=S.goals; let start=g.horasDiaInicio?new Date(g.horasDiaInicio+'T00:00:00'):new Date(TODAY);
-  const months=Math.floor((date-start)/(1000*60*60*24*30.44));
-  return Math.min(4, Math.max(0, months));
+  const monthNum=Math.max(1, Math.floor((date-start)/(1000*60*60*24*30.44))+1);
+  let idx=-1, best=-1;
+  arr.forEach((c,i)=>{ if(c.month<=monthNum && c.month>best){ best=c.month; idx=i; } });
+  if(idx<0){ let mn=Infinity; arr.forEach((c,i)=>{ if(c.month<mn){ mn=c.month; idx=i; } }); }
+  return Math.max(0,idx);
 }
 function currentPomoMetaIndex(){ return pomoMetaIndexForDate(TODAY); }
 function currentPomoMeta(){ return pomoMetas()[currentPomoMetaIndex()]; }
@@ -1360,9 +1677,9 @@ function renderDash(){
   const el=document.getElementById('panel-dash');
   el.innerHTML=`
   <div class="tiles">
-    <div class="tile tile-rich">
+    <div class="tile tile-rich" style="background:var(--brand-soft)">
       <div class="tile-top tile-top-split">
-        <div class="ic" style="background:var(--brand-soft)"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="13" r="8" stroke="var(--brand)" stroke-width="2"/><path d="M12 9v4l2.5 2.5" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="ic" style="background:var(--card)"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="13" r="8" stroke="var(--brand)" stroke-width="2"/><path d="M12 9v4l2.5 2.5" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"/></svg></div>
         <div class="tile-top-r">
           <div class="v">${fmtH(mins)}</div>
           <div class="l up sm">Horas líquidas</div>
@@ -1373,9 +1690,9 @@ function renderDash(){
         <div class="tr"><span>Dias estudados</span><b>${diasEstudados}</b></div>
       </div>
     </div>
-    <div class="tile tile-rich">
+    <div class="tile tile-rich" style="background:var(--green-soft)">
       <div class="tile-top tile-top-split">
-        <div class="ic" style="background:var(--green-soft)"><svg viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="var(--green)" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="ic" style="background:var(--card)"><svg viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="var(--green)" stroke-width="2" stroke-linecap="round"/></svg></div>
         <div class="tile-top-r">
           <div class="v">${itDone}<span style="font-size:15px;color:var(--ink2)">/${itTotal}</span></div>
           <div class="l up sm">Itens do edital</div>
@@ -1386,9 +1703,9 @@ function renderDash(){
         <div class="tr"><span>Tópicos pendentes</span><b>${itPend}</b></div>
       </div>
     </div>
-    <div class="tile tile-rich">
+    <div class="tile tile-rich" style="background:var(--amber-soft)">
       <div class="tile-top tile-top-split">
-        <div class="ic" style="background:var(--amber-soft)"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" stroke="var(--amber)" stroke-width="2"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="var(--amber)" stroke-width="2"/></svg></div>
+        <div class="ic" style="background:var(--card)"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" stroke="var(--amber)" stroke-width="2"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="var(--amber)" stroke-width="2"/></svg></div>
         <div class="tile-top-r">
           <div class="v">${q}</div>
           <div class="l up sm">Questões resolvidas</div>
@@ -1399,9 +1716,9 @@ function renderDash(){
         <div class="tr"><span>Erros</span><b>${Math.max(0,q-qr)}</b></div>
       </div>
     </div>
-    <div class="tile tile-rich">
+    <div class="tile tile-rich" style="background:var(--pink-soft)">
       <div class="tile-top tile-top-split">
-        <div class="ic" style="background:var(--pink-soft)"><svg viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="var(--pink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="ic" style="background:var(--card)"><svg viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="var(--pink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="tile-top-r">
           <div class="v">${acc}%</div>
           <div class="l up sm">Aproveitamento</div>
@@ -1414,61 +1731,37 @@ function renderDash(){
     </div>
   </div>
 
-  ${renderConstancia()}
-
-  ${renderProvaPrazo()}
-
-  <div class="card card-pad chart-card" style="margin-bottom:18px">
-    <div class="weekly-head prog-head">
-      <div class="card-h">Progresso</div>
-      <div class="week-nav prog-datenav">
-        <button class="week-nav-btn" id="weekPrev" title="Anterior">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <span class="week-range" id="weeklyRange">—</span>
-        <button class="week-nav-btn" id="weekNext" title="Próximo">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-      <div class="prog-row">
-        <div class="seg-toggle" id="periodToggle">
-          <button data-period="semana">Semana</button>
-          <button data-period="mes" class="seg-on">Mês</button>
-          <button data-period="total">Total</button>
-        </div>
-        <div class="seg-toggle" id="weeklyToggle">
-          <button data-wmode="tempo" class="seg-on">Tempo</button>
-          <button data-wmode="questoes">Questões</button>
-        </div>
-      </div>
-    </div>
-    <div id="weeklyChart" class="chart-fill"></div>
+  <div class="grid g2" style="margin-bottom:18px">
+    ${renderConstancia()}
+    ${renderProvaPrazo()}
   </div>
 
-  <div class="grid g3" style="margin-top:18px">
+  <div class="grid g3" style="margin-bottom:18px">
     <div class="card card-pad chart-card">
-      <div class="card-h">Tempo por disciplina</div>
-      <div class="card-sub" style="margin-bottom:8px">Horas líquidas registradas</div>
-      <div class="chart-fill">${renderTimeBars()}</div>
-    </div>
-
-    <div class="card card-pad chart-card">
-      <div class="card-h">Progresso do edital</div>
-      <div class="card-sub" style="margin-bottom:18px">Distribuição por disciplina</div>
-      <div class="donut-flex chart-fill">
-        <div class="donut-box">
-          ${donut(totalPct(),170,23,cssVar('--brand'))}
-          <div class="donut-center"><div class="big">${totalPct()}%</div><div class="lbl">concluído</div></div>
+      <div class="weekly-head prog-head">
+        <div class="card-h">Progresso</div>
+        <div class="week-nav prog-datenav">
+          <button class="week-nav-btn" id="weekPrev" title="Anterior">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="week-range" id="weeklyRange">—</span>
+          <button class="week-nav-btn" id="weekNext" title="Próximo">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
-        <div class="donut-legend">
-          ${DISC.map(d=>{const p=discPct(d);return `
-            <div class="pl-row" data-goto="${d.id}" style="cursor:pointer">
-              <span class="pl-name" style="color:${d.color}">${d.short}</span>
-              <span class="pl-line"></span>
-              <span class="pl-time">${p}%</span>
-            </div>`;}).join('')}
+        <div class="prog-row">
+          <div class="seg-toggle" id="periodToggle">
+            <button data-period="semana">Semana</button>
+            <button data-period="mes" class="seg-on">Mês</button>
+            <button data-period="total">Total</button>
+          </div>
+          <div class="seg-toggle" id="weeklyToggle">
+            <button data-wmode="tempo" class="seg-on">Tempo</button>
+            <button data-wmode="questoes">Questões</button>
+          </div>
         </div>
       </div>
+      <div id="weeklyChart" class="chart-fill"></div>
     </div>
 
     <div class="card card-pad chart-card">
@@ -1481,10 +1774,38 @@ function renderDash(){
       </div>
       <div id="pieChart" class="chart-fill"></div>
     </div>
+
+    <div class="card card-pad chart-card">
+      <div class="card-h">Tempo por matéria</div>
+      <div class="card-sub" style="margin-bottom:8px">Horas líquidas registradas</div>
+      <div class="chart-fill">${renderTimeBars()}</div>
+    </div>
+  </div>
+
+  ${renderAnalyticsCards()}
+
+  <div class="card card-pad chart-card" style="margin-bottom:18px">
+    <div class="card-h">Progresso do edital</div>
+    <div class="card-sub" style="margin-bottom:18px">Distribuição por disciplina</div>
+    <div class="donut-flex chart-fill">
+      <div class="donut-box">
+        ${donut(totalPct(),170,23,cssVar('--brand'))}
+        <div class="donut-center"><div class="big">${totalPct()}%</div><div class="lbl">concluído</div></div>
+      </div>
+      <div class="donut-legend">
+        ${DISC.map(d=>{const p=discPct(d);return `
+          <div class="pl-row" data-goto="${d.id}" style="cursor:pointer">
+            <span class="pl-dot" style="background:${d.color}"></span>
+            <span class="pl-name">${d.short}</span>
+            <span class="pl-mini"><i style="width:${p}%;background:${d.color}"></i></span>
+            <span class="pl-time">${p}%</span>
+          </div>`;}).join('')}
+      </div>
+    </div>
   </div>
 
   <div class="card card-pad" style="margin-top:18px">
-    <div class="card-h" style="margin-bottom:14px">Painel de Disciplinas</div>
+    <div class="card-h" style="margin-bottom:14px">Painel de disciplinas</div>
     ${renderPainel()}
   </div>
 
@@ -1538,6 +1859,7 @@ function renderDash(){
   }));
   // re-renderiza o gráfico após o layout, para a largura/fontes ficarem corretas
   requestAnimationFrame(()=>renderWeekly(weeklyMode));
+  wireAnalyticsCards();
 }
 // re-renderiza ao redimensionar (gráfico do dash e dias da semana no Calendário)
 let _wkResizeT;
@@ -1545,10 +1867,162 @@ window.addEventListener('resize',()=>{
   clearTimeout(_wkResizeT);
   _wkResizeT=setTimeout(()=>{
     if(curTab==='dash' && document.getElementById('weeklyChart')) renderWeekly(weeklyMode);
-    if(curTab==='metas' && document.getElementById('evoChart')) renderEvo();
+    if(curTab==='dash' && document.getElementById('evoChart')) renderEvo();
     if(curTab==='cal' && document.getElementById('semanaMount')) renderSemana();
   }, 140);
 });
+// Cards de análise (movidos para a Visão geral): Desempenho, Evolução, Constância—distribuição
+function renderAnalyticsCards(){
+  const q=totalQ(), qr=totalQR(), acc=q?Math.round(qr/q*100):0;
+  return `
+  <div class="card card-pad" style="margin-bottom:18px">
+    <div class="card-h">Desempenho em questões</div>
+    <div class="card-sub" style="margin-bottom:18px">Aproveitamento por disciplina</div>
+    ${DISC.map(d=>{const dq=discQ(d.id),dqr=discQR(d.id),a=dq?Math.round(dqr/dq*100):null;
+      if(a===null) return '';
+      let col=a>=70?'var(--green)':a>=50?'var(--amber)':'var(--pink)';
+      return `<div class="perf-row">
+        <span class="perf-dot" style="background:${d.color}"></span>
+        <span class="perf-name">${d.short}</span>
+        <div class="perf-track"><i style="width:${a}%;background:${d.color}"></i></div>
+        <span class="perf-badge" style="color:${col};background:color-mix(in srgb, ${col} 14%, transparent)">${a}%</span>
+        <span class="perf-q">${dq}q</span>
+      </div>`;}).join('') || `<div class="empty-state" style="padding:20px"><div>Resolva questões para ver seu aproveitamento por matéria.</div></div>`}
+    <div class="perf-total">
+      <span>Aproveitamento geral</span>
+      <span class="perf-total-v">${acc}% <span style="color:var(--ink2);font-weight:600">(${qr}/${q})</span></span>
+    </div>
+  </div>
+  <div class="card card-pad" style="margin-bottom:18px">
+    <div class="calcard-head">
+      <div class="card-h">Calendário</div>
+      <div class="calcard-nav">
+        <button class="calcard-arw" id="dashCalPrev" title="Semana anterior">‹</button>
+        <span id="dashCalRange" class="calcard-range"></span>
+        <button class="calcard-arw" id="dashCalNext" title="Próxima semana">›</button>
+      </div>
+      <button class="calcard-expand" id="dashCalExpand" title="Calendário mensal">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div id="dashSemanaMount"></div>
+  </div>
+  <div class="card card-pad chart-card" style="margin-bottom:18px">
+    <div class="weekly-head prog-head">
+      <div class="card-h">Evolução</div>
+      <div class="prog-row">
+        <div class="seg-toggle" id="evoPeriodToggle">
+          <button data-evoper="semana" class="seg-on">Semana</button>
+          <button data-evoper="mes">Mês</button>
+          <button data-evoper="total">Total</button>
+        </div>
+        <div class="seg-toggle" id="evoModeToggle">
+          <button data-evomode="tempo" class="seg-on">Tempo</button>
+          <button data-evomode="questoes">Questões</button>
+        </div>
+      </div>
+    </div>
+    <div id="evoChart" class="chart-fill"></div>
+  </div>
+  <div class="card card-pad" style="margin-bottom:18px">
+    <div class="card-h">Constância — distribuição de tempo</div>
+    <div class="card-sub" style="margin-bottom:8px">Por tipo de atividade</div>
+    ${renderTipoSplit()}
+  </div>`;
+}
+function wireAnalyticsCards(){
+  evoPeriod='semana'; evoMode='tempo';
+  renderEvo();
+  document.querySelectorAll('#evoPeriodToggle button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('#evoPeriodToggle button').forEach(x=>x.classList.remove('seg-on'));
+    b.classList.add('seg-on'); evoPeriod=b.dataset.evoper; renderEvo();
+  }));
+  document.querySelectorAll('#evoModeToggle button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('#evoModeToggle button').forEach(x=>x.classList.remove('seg-on'));
+    b.classList.add('seg-on'); evoMode=b.dataset.evomode; renderEvo();
+  }));
+  requestAnimationFrame(()=>renderEvo());
+  wireDashCalendar();
+}
+// ===== Calendário (card na Visão geral) =====
+function dashWeekRange(){
+  const wd=weekDays(semanaOffset);
+  const fmtR=d=>d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+  const mobile=window.matchMedia('(max-width:920px)').matches;
+  if(mobile){ semWin=Math.max(0,Math.min(4,semWin)); return `${fmtR(wd[semWin])} – ${fmtR(wd[Math.min(6,semWin+2)])}`; }
+  return `${fmtR(wd[0])} – ${fmtR(wd[6])}`;
+}
+function renderDashWeek(){
+  const el=document.getElementById('dashSemanaMount'); if(!el) return;
+  const week=buildWeekPlan();
+  const mobile=window.matchMedia('(max-width:920px)').matches;
+  if(mobile){ semWin=Math.max(0,Math.min(4,semWin)); } else { semWin=0; }
+  const daysToShow = mobile ? week.slice(semWin, semWin+3) : week;
+  el.innerHTML=`<div class="sem-grid">${weekColsHTML(daysToShow)}</div>`;
+  el.querySelectorAll('[data-wtask]').forEach(w=>w.addEventListener('click',()=>{ const[dId,tipo,iso]=w.dataset.wtask.split('|'); openTaskDetail(DMAP[dId],tipo,iso); }));
+  el.querySelectorAll('[data-calday]').forEach(h=>h.addEventListener('click',()=>showCalDay(h.dataset.calday)));
+  const lbl=document.getElementById('dashCalRange'); if(lbl) lbl.textContent=dashWeekRange();
+}
+function dashWeekNav(dir){
+  const mobile=window.matchMedia('(max-width:920px)').matches;
+  if(mobile){
+    if(dir<0){ if(semWin>0) semWin=Math.max(0,semWin-3); else { semanaOffset--; semWin=4; } }
+    else { if(semWin<4) semWin=Math.min(4,semWin+3); else { semanaOffset++; semWin=0; } }
+  } else { semanaOffset+=dir; semWin=0; }
+  renderDashWeek();
+}
+function wireDashCalendar(){
+  renderDashWeek();
+  const p=document.getElementById('dashCalPrev'), n=document.getElementById('dashCalNext'), ex=document.getElementById('dashCalExpand');
+  if(p) p.addEventListener('click',()=>dashWeekNav(-1));
+  if(n) n.addEventListener('click',()=>dashWeekNav(1));
+  if(ex) ex.addEventListener('click',openMonthCalModal);
+}
+function openMonthCalModal(){
+  const wd=weekDays(semanaOffset);
+  let viewY=wd[3].getFullYear(), viewM=wd[3].getMonth();
+  const MN=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const render=()=>{
+    const first=new Date(viewY,viewM,1), firstDow=first.getDay();
+    const last=new Date(viewY,viewM+1,0).getDate(), prevLast=new Date(viewY,viewM,0).getDate();
+    const cells=[];
+    for(let i=firstDow-1;i>=0;i--) cells.push({date:new Date(viewY,viewM-1,prevLast-i),off:true});
+    for(let d=1;d<=last;d++) cells.push({date:new Date(viewY,viewM,d),off:false});
+    while(cells.length%7!==0){ const nn=cells.length-(firstDow+last)+1; cells.push({date:new Date(viewY,viewM+1,nn),off:true}); }
+    const fmtMin=v=>v>=60?fmtH(v):v+'min';
+    const grid=cells.map(c=>{
+      const dn=c.date.getDate();
+      let cls='cal-cell'; if(c.off) cls+=' cal-off'; if(sameDay(c.date,TODAY)) cls+=' cal-today-cell';
+      if(c.off) return `<div class="${cls}"><div class="cal-dnum">${dn}</div></div>`;
+      const list=dayMateriaSummary(c.date);
+      if(!list.length) return `<div class="${cls}" data-calsel="${isoOfDate(c.date)}"><div class="cal-dnum">${dn}</div></div>`;
+      const lines=list.slice(0,2).map(o=>`<div class="cal-mat" style="color:${o.disc.color}">${SIGLA[o.disc.id]||o.disc.short.slice(0,3).toUpperCase()} · ${fmtMin(o.min)}</div>`).join('');
+      const more=list.length>2?`<div class="cal-h">+${list.length-2}</div>`:'';
+      const exd=dayExtras(c.date);
+      const tags=(exd.qT>0?`<span class="cal-tag" style="background:#f59e0b"></span>`:'')+(exd.hasRev?`<span class="cal-tag" style="background:#8b5cf6"></span>`:'');
+      return `<div class="${cls}" data-calsel="${isoOfDate(c.date)}"><div class="cal-dnum">${dn}</div>${lines}${more}${tags?`<div class="cal-tags">${tags}</div>`:''}<div class="cal-stripe" style="background:${list[0].disc.color}"></div></div>`;
+    }).join('');
+    showModal(`
+      <div class="cal-head" style="justify-content:center;margin-bottom:10px">
+        <div class="cal-nav">
+          <button class="cal-btn" id="mcmPrev" title="Mês anterior"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="cal-month-lbl">${MN[viewM]} ${viewY}</div>
+          <button class="cal-btn" id="mcmNext" title="Próximo mês"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        </div>
+      </div>
+      <div class="cal-grid">
+        ${['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(d=>`<div class="cal-dow">${d}</div>`).join('')}
+        ${grid}
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="closeModal()">Fechar</button>
+    `);
+    const body=document.getElementById('modalBody');
+    body.querySelector('#mcmPrev').addEventListener('click',()=>{ viewM--; if(viewM<0){viewM=11;viewY--;} render(); });
+    body.querySelector('#mcmNext').addEventListener('click',()=>{ viewM++; if(viewM>11){viewM=0;viewY++;} render(); });
+    body.querySelectorAll('[data-calsel]').forEach(c=>c.addEventListener('click',()=>showCalDay(c.dataset.calsel)));
+  };
+  render();
+}
 
 // ════════ CONSTÂNCIA NOS ESTUDOS ════════
 // Deriva os dias com estudo a partir das sessões registradas.
@@ -1565,6 +2039,11 @@ function isoToBR(iso){ // "aaaa-mm-dd" -> "dd/mm/aaaa"
   if(!iso) return dateKeyBR(TODAY);
   const[y,m,d]=iso.split('-');
   return `${d}/${m}/${y}`;
+}
+function brShort(br){ // "dd/mm/aaaa" -> "dd/mm/aa"
+  if(!br) return br;
+  const p=br.split('/'); if(p.length!==3) return br;
+  return `${p[0]}/${p[1]}/${p[2].slice(-2)}`;
 }
 // retângulo com raio independente no topo (rt) e na base (rb) — para barras empilhadas
 function roundedRect(x,y,w,h,rt,rb){
@@ -1678,24 +2157,23 @@ function renderConstancia(){
     viewLast=new Date(todayW);
     viewFirst=new Date(todayW); viewFirst.setDate(todayW.getDate()-4*7);
   }
-  const WEEKS=Math.max(1, Math.round((viewLast-viewFirst)/(7*86400000))+1);
-
   const MNABR=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   const rest=constanciaConfig();
 
-  // monta colunas
+  // cada quadrado = um dia; preenche de cima para baixo, depois da esquerda para a direita
+  const ROWS=7;
+  const allDays=[];
+  { let d=new Date(viewFirst); while(d<=viewLast){ allDays.push(new Date(d)); d.setDate(d.getDate()+1); } }
+  const NCOLS=Math.max(1, Math.ceil(allDays.length/ROWS));
   let cols='', monthLabels='';
-  let lastMonthShown=-1;
-  for(let w=0; w<WEEKS; w++){
-    const colSunday=new Date(viewFirst); colSunday.setDate(viewFirst.getDate()+w*7);
-    // rótulo de mês quando vira o mês (na primeira semana do mês)
-    if(colSunday.getMonth()!==lastMonthShown && colSunday.getDate()<=7){
-      monthLabels+=`<div class="ghc-month" style="grid-column:${w+1}">${MNABR[colSunday.getMonth()]}</div>`;
-      lastMonthShown=colSunday.getMonth();
-    }
-    let cells='';
-    for(let dow=0; dow<7; dow++){
-      const d=new Date(colSunday); d.setDate(colSunday.getDate()+dow);
+  let lastMonthShown=-1, prevColMonth=-1;
+  for(let c=0; c<NCOLS; c++){
+    let cells='', colMonth=-1;
+    for(let r=0; r<ROWS; r++){
+      const idx=c*ROWS+r;
+      if(idx>=allDays.length){ cells+=`<div class="ghc-cell ghc-empty"></div>`; continue; }
+      const d=allDays[idx];
+      if(colMonth<0) colMonth=d.getMonth();
       const future = d>TODAY;
       const key=dateKeyBR(d);
       const min=minMap[key]||0;
@@ -1708,15 +2186,21 @@ function renderConstancia(){
       const title = future ? dateKeyBR(d) : `${dateKeyBR(d)} — ${min?fmtH(min)+' estudadas':(isRest?'Folga':'Sem registro')}`;
       cells+=`<div class="${cls}" title="${title}"></div>`;
     }
-    cols+=`<div class="ghc-col">${cells}</div>`;
+    if(colMonth>=0 && colMonth!==lastMonthShown){
+      monthLabels+=`<div class="ghc-month" style="grid-column:${c+1}">${MNABR[colMonth]}</div>`;
+      lastMonthShown=colMonth;
+    }
+    const mstart = (c>0 && colMonth!==prevColMonth);
+    cols+=`<div class="ghc-col${mstart?' ghc-mstart':''}">${cells}</div>`;
+    prevColMonth=colMonth;
   }
+  const WEEKS=NCOLS;
 
   return `
-  <div class="card card-pad" style="margin-bottom:18px">
+  <div class="card card-pad" style="height:100%;display:flex;flex-direction:column">
     <div class="cst-head">
       <div>
-        <div class="cst-title">Constância nos estudos</div>
-        <div class="cst-msg">${msg}</div>
+        <div class="cst-title">Constância</div>
       </div>
       <div class="seg-toggle" id="cstViewToggle">
         <button data-cstv="mes"${cstView==='mes'?' class="seg-on"':''}>Mês</button>
@@ -1726,18 +2210,21 @@ function renderConstancia(){
     </div>
     <div class="ghc-wrap">
       <div class="ghc-inner">
-        <div class="ghc-months" style="grid-template-columns:repeat(${WEEKS},15px);min-width:${WEEKS*18}px">${monthLabels}</div>
-        <div class="ghc-grid" style="min-width:${WEEKS*18}px">${cols}</div>
+        <div class="ghc-months" style="grid-template-columns:repeat(${WEEKS},14px);gap:3px;min-width:${WEEKS*17}px">${monthLabels}</div>
+        <div class="ghc-grid${cstView==='mes'?'':' ghc-spaced'}" style="min-width:${WEEKS*17}px">${cols}</div>
       </div>
     </div>
     <div class="ghc-legend">
-      <span>Menos</span>
-      <div class="ghc-cell"></div>
-      <div class="ghc-cell ghc-l1"></div>
-      <div class="ghc-cell ghc-l2"></div>
-      <div class="ghc-cell ghc-l3"></div>
-      <div class="ghc-cell ghc-l4"></div>
-      <span>Mais</span>
+      <span class="ghc-msg">${msg}</span>
+      <div class="ghc-legend-scale">
+        <span>Menos</span>
+        <div class="ghc-cell"></div>
+        <div class="ghc-cell ghc-l1"></div>
+        <div class="ghc-cell ghc-l2"></div>
+        <div class="ghc-cell ghc-l3"></div>
+        <div class="ghc-cell ghc-l4"></div>
+        <span>Mais</span>
+      </div>
     </div>
   </div>`;
 }
@@ -1751,10 +2238,10 @@ function renderProvaPrazo(){
   const dias=daysUntilProva();
   const provaBR=PROVA.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
   return `
-  <div class="card card-pad" style="margin-bottom:18px">
+  <div class="card card-pad" style="height:100%;display:flex;flex-direction:column">
     <div class="cst-head">
       <div>
-        <div class="cst-title">Prazo até a prova</div>
+        <div class="cst-title">Prazo</div>
         <div class="cst-msg">Faltam <b>${dias} ${dias===1?'dia':'dias'}</b> para a prova estimada (${provaBR}).</div>
       </div>
       <div style="font-size:28px;font-weight:800;color:var(--brand)">${pct}%</div>
@@ -1766,6 +2253,296 @@ function renderProvaPrazo(){
       <span>Início do ciclo</span><span>Prova · ${provaBR}</span>
     </div>
   </div>`;
+}
+// ════════ CRONOGRAMA DE ESTUDOS (Gantt) ════════
+const GANTT_INICIO=new Date(2026,5,15);
+function ganttRows(){
+  return cycleOrder().map(id=>{
+    const d=DMAP[id]; if(!d) return null;
+    const sBR=S.agenda&&S.agenda[id], eBR=S.cronoEnd&&S.cronoEnd[id];
+    let start=sBR?parseBRDate(sBR):new Date(GANTT_INICIO);
+    let end=eBR?parseBRDate(eBR):new Date(PROVA);
+    if(!start) start=new Date(GANTT_INICIO);
+    if(!end) end=new Date(PROVA);
+    start.setHours(0,0,0,0); end.setHours(0,0,0,0);
+    if(end<start){ const t=end; end=new Date(start); start=t; }
+    return {id, disc:d, start, end};
+  }).filter(Boolean);
+}
+function ganttRange(rows){
+  let min=new Date(TODAY), max=new Date(TODAY);
+  rows.forEach(r=>{ if(r.start<min) min=new Date(r.start); if(r.end>max) max=new Date(r.end); });
+  // margem de alguns dias nas pontas
+  min=new Date(min); min.setDate(min.getDate()-3);
+  max=new Date(max); max.setDate(max.getDate()+3);
+  min.setHours(0,0,0,0); max.setHours(0,0,0,0);
+  return {min,max,span:Math.max(1,(max-min)/86400000)};
+}
+function renderGantt(){
+  const rows=ganttRows();
+  const {min,max,span}=ganttRange(rows);
+  const pct=date=>((date-min)/86400000/span*100);
+  // marcas de mês
+  const MN=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  let ticks=''; const tk=new Date(min.getFullYear(),min.getMonth(),1);
+  if(tk<min) tk.setMonth(tk.getMonth()+1);
+  let ti=0;
+  while(tk<=max){
+    const left=pct(tk);
+    ticks+=`<div class="gantt-tick${ti%2?' gantt-tick-lo':''}" style="left:${left}%"><span>${MN[tk.getMonth()]}/${String(tk.getFullYear()).slice(-2)}</span></div>`;
+    tk.setMonth(tk.getMonth()+1); ti++;
+  }
+  const todayLeft=pct(new Date(TODAY));
+  // linhas verticais: a cada 10 dias (claras) + meses (mais escuras)
+  const tenW=100/span*10;
+  let trackBg=`repeating-linear-gradient(90deg, transparent 0, transparent calc(${tenW}% - 1px), var(--gantt-day) calc(${tenW}% - 1px), var(--gantt-day) ${tenW}%)`;
+  const mk=new Date(min.getFullYear(),min.getMonth(),1); if(mk<min) mk.setMonth(mk.getMonth()+1);
+  const monthLayers=[];
+  let mm=new Date(mk);
+  while(mm<=max){
+    const p=pct(mm);
+    monthLayers.push(`linear-gradient(90deg, transparent calc(${p}% - 0.5px), var(--gantt-month) calc(${p}% - 0.5px), var(--gantt-month) calc(${p}% + 0.5px), transparent calc(${p}% + 0.5px))`);
+    mm.setMonth(mm.getMonth()+1);
+  }
+  const fullBg=(monthLayers.length?monthLayers.join(',')+',':'')+trackBg;
+  // horas previstas por matéria no período da barra (soma o que o agendador aloca em cada dia)
+  const totalMinByDisc={}; rows.forEach(r=>totalMinByDisc[r.id]=0);
+  if(rows.length){
+    let lo=rows[0].start, hi=rows[0].end;
+    rows.forEach(r=>{ if(r.start<lo) lo=r.start; if(r.end>hi) hi=r.end; });
+    const cur=new Date(lo); cur.setHours(0,0,0,0); const end=new Date(hi); end.setHours(0,0,0,0);
+    let guard=0;
+    while(cur<=end && guard<2000){
+      const mmap={}; dayMateriaSummary(cur).forEach(o=>{ mmap[o.disc.id]=o.min; });
+      rows.forEach(r=>{ if(cur>=r.start && cur<=r.end) totalMinByDisc[r.id]+=(mmap[r.id]||0); });
+      cur.setDate(cur.getDate()+1); guard++;
+    }
+  }
+  const barsRows=rows.map(r=>{
+    const l=pct(r.start), w=Math.max(1.2,pct(r.end)-l);
+    const hrs=Math.round((totalMinByDisc[r.id]||0)/60);
+    return `<div class="gantt-row" data-id="${r.id}">
+      <div class="gantt-label" style="color:${r.disc.color}"><span class="gantt-dot" style="background:${r.disc.color}"></span>${r.disc.short}</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" data-id="${r.id}" style="left:${l}%;width:${w}%;background:${r.disc.color}">
+          <span class="gantt-bar-val">${hrs}h</span>
+          <span class="gantt-handle gantt-h-l" data-id="${r.id}" data-edge="start"></span>
+          <span class="gantt-handle gantt-h-r" data-id="${r.id}" data-edge="end"></span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="card card-pad" style="margin-bottom:18px">
+    <div class="card-h" style="display:flex;align-items:center;gap:8px;margin-bottom:14px">Cronograma de estudos <span class="help" tabindex="0" data-tip="Arraste as pontas de cada barra para ajustar o início e o fim de cada matéria.">?</span></div>
+    <div class="gantt" id="ganttBox" data-min="${min.toISOString()}" data-span="${span}" style="--gantt-trackbg:${fullBg}">
+      <div class="gantt-axis"><div class="gantt-axis-track">${ticks}</div></div>
+      <div class="gantt-body">
+        ${barsRows}
+        <div class="gantt-today" style="left:calc(120px + (100% - 120px) * ${todayLeft/100})"><span class="gantt-today-lbl">HOJE</span></div>
+      </div>
+      <div class="gantt-tip" id="ganttTip"></div>
+    </div>
+  </div>`;
+}
+function ganttPredMin(id,start,end){
+  let total=0; const cur=new Date(start); cur.setHours(0,0,0,0); const e=new Date(end); e.setHours(0,0,0,0);
+  let guard=0;
+  while(cur<=e && guard<2000){
+    const o=dayMateriaSummary(cur).find(x=>x.disc.id===id);
+    if(o) total+=o.min;
+    cur.setDate(cur.getDate()+1); guard++;
+  }
+  return total;
+}
+function wireGantt(){
+  const box=document.getElementById('ganttBox'); if(!box) return;
+  const min=new Date(box.dataset.min), span=parseFloat(box.dataset.span);
+  const tip=document.getElementById('ganttTip');
+  const pct=x=>((x-min)/86400000/span*100);
+  function brOf(d){ return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
+  box.querySelectorAll('.gantt-handle').forEach(h=>{
+    const id=h.dataset.id, edge=h.dataset.edge, bar=h.parentElement;
+    let rect=null, curStart=null, curEnd=null, lastKey=null;
+    function dateFromX(clientX){
+      let f=(clientX-rect.left)/rect.width; f=Math.max(0,Math.min(1,f));
+      const d=new Date(min.getTime()+f*span*86400000); d.setHours(0,0,0,0); return d;
+    }
+    function move(e){
+      const d=dateFromX(e.clientX);
+      const row=ganttRows().find(r=>r.id===id); if(!row) return;
+      let start=row.start, end=row.end;
+      if(edge==='start'){ start=d; if(start>end) start=new Date(end); } else { end=d; if(end<start) end=new Date(start); }
+      const l=pct(start), w=Math.max(1.2,pct(end)-l);
+      bar.style.left=l+'%'; bar.style.width=w+'%';
+      const show=edge==='start'?start:end;
+      tip.textContent=brShort(brOf(show));
+      const bx=bar.getBoundingClientRect(), boxr=box.getBoundingClientRect();
+      const tx=(edge==='start'?bx.left:bx.right)-boxr.left;
+      tip.style.left=Math.max(8,Math.min(boxr.width-8,tx))+'px';
+      curStart=start; curEnd=end;
+      // atualiza o valor de horas dentro da barra em tempo real (só ao trocar de dia)
+      const key=brOf(curStart)+'_'+brOf(curEnd);
+      if(key!==lastKey){
+        lastKey=key;
+        if(!S.agenda) S.agenda={}; if(!S.cronoEnd) S.cronoEnd={};
+        S.agenda[id]=brOf(curStart); S.cronoEnd[id]=brOf(curEnd);
+        const valEl=bar.querySelector('.gantt-bar-val');
+        if(valEl) valEl.textContent=Math.round(ganttPredMin(id,curStart,curEnd)/60)+'h';
+      }
+    }
+    function up(e){
+      h.onpointermove=null; h.onpointerup=null; h.onpointercancel=null;
+      try{ h.releasePointerCapture(e.pointerId); }catch(_){ }
+      if(!S.agenda) S.agenda={}; if(!S.cronoEnd) S.cronoEnd={};
+      if(curStart) S.agenda[id]=brOf(curStart);
+      if(curEnd) S.cronoEnd[id]=brOf(curEnd);
+      save(); tip.classList.remove('show');
+      renderMetas();
+    }
+    h.addEventListener('pointerdown',e=>{
+      e.preventDefault(); e.stopPropagation();
+      rect=bar.parentElement.getBoundingClientRect();
+      try{ h.setPointerCapture(e.pointerId); }catch(_){ }
+      tip.classList.add('show');
+      h.onpointermove=move; h.onpointerup=up; h.onpointercancel=up;
+      move(e);
+    });
+  });
+}
+// ════════ REVISÕES ════════
+const REV_COLORS=['#6366f1','#16b981','#f59e0b','#ec4899','#00c2a8','#8b5cf6','#ef4444','#0ea5e9'];
+function renderRevisoesCard(){
+  const revs=S.revisoes||[];
+  const tiles=revs.map((r,i)=>{
+    const col=REV_COLORS[i%REV_COLORS.length];
+    return `<div class="revm-tile" style="--accent:${col}">
+      <div class="revm-main" style="color:${col}"><span class="revm-num">${r.spacing}</span><span class="revm-day">${r.spacing===1?'dia':'dias'}</span></div>
+      <div class="revm-cap">de espaçamento</div>
+      <button class="revm-gear" data-revm="${i}" title="Configurar">${GEAR_SVG}</button>
+    </div>`;
+  }).join('');
+  const add=`<button class="revm-add" id="revAdd" title="Adicionar revisão">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+  </button>`;
+  return `<div class="card card-pad" style="margin-bottom:18px">
+    <div class="card-h" style="display:flex;align-items:center;gap:8px;margin-bottom:4px">Revisões <span class="help" tabindex="0" data-tip="Cada módulo é um ciclo de revisão: defina de quantos em quantos dias ele se repete e quanto tempo dedicar a cada revisão.">?</span></div>
+    <div class="card-sub" style="margin-bottom:14px">Configure os ciclos de revisão por espaçamento e duração.</div>
+    <div class="revm-grid">${tiles}${add}</div>
+  </div>`;
+}
+function openRevCfg(i){
+  const revs=S.revisoes||[]; let tmp={...revs[i]};
+  const LIM={spacing:[1,180,1]};
+  const col=REV_COLORS[i%REV_COLORS.length];
+  const render=()=>{
+    showModal(`
+      <div style="font-size:16px;font-weight:800;margin-bottom:4px;text-align:center;text-transform:uppercase;letter-spacing:.02em;color:${col}">Módulo de revisão ${i+1}</div>
+      <div class="card-sub" style="text-align:center;margin-bottom:16px">A cada ${tmp.spacing} ${tmp.spacing===1?'dia':'dias'}</div>
+      <div class="cfg-box mt-box"><div class="cfg-box-h" style="text-align:center">Espaçamento</div>${mtArwCtl(tmp,'spacing','dias entre revisões')}</div>
+      <div class="mt-note">A duração de cada revisão é definida no card Metas pomodoro (tempo reservado no bloco de foco).</div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" id="revSave">Salvar</button>
+      <button class="btn" style="width:100%;justify-content:center;margin-top:8px;color:var(--pink)" id="revDel">Remover módulo</button>
+    `);
+    const body=document.getElementById('modalBody');
+    body.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.dec; tmp[k]=Math.max(LIM[k][0],tmp[k]-LIM[k][2]); render(); }));
+    body.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.inc; tmp[k]=Math.min(LIM[k][1],tmp[k]+LIM[k][2]); render(); }));
+    wireMtInputs(body,tmp,LIM,render);
+    document.getElementById('revSave').addEventListener('click',()=>{ S.revisoes[i]={...tmp}; save(); closeModal(); renderMetas(); });
+    document.getElementById('revDel').addEventListener('click',()=>{ S.revisoes.splice(i,1); save(); closeModal(); renderMetas(); });
+  };
+  render();
+}
+function wireRevisoes(){
+  document.querySelectorAll('[data-revm]').forEach(b=>b.addEventListener('click',()=>openRevCfg(+b.dataset.revm)));
+  const ra=document.getElementById('revAdd');
+  if(ra) ra.addEventListener('click',()=>{ if(!S.revisoes) S.revisoes=[]; S.revisoes.push({spacing:7,duration:20}); save(); renderMetas(); });
+}
+// ════════ QUESTÕES e HORAS IDEAIS (por matéria) ════════
+function questoesCfg(id){ S.questoes=S.questoes||{}; if(!S.questoes[id]) S.questoes[id]={qtd:100,month:1,accMin:60,accIdeal:80}; return S.questoes[id]; }
+function horasCfg(id){ S.horasIdeais=S.horasIdeais||{}; if(!S.horasIdeais[id]) S.horasIdeais[id]={ideal:20,min:10,month:1}; return S.horasIdeais[id]; }
+function mtArwCtl(tmp,k,label,suf){ return `<div class="pm-month">
+    <button class="pm-month-arw" data-dec="${k}" title="Diminuir">‹</button>
+    <div class="pm-month-mid">
+      <div class="pm-month-numwrap"><input class="pm-month-input" data-input="${k}" type="text" inputmode="numeric" value="${tmp[k]}">${suf?`<span class="pm-month-suf">${suf}</span>`:''}</div>
+      <div class="pm-month-lbl">${label}</div>
+    </div>
+    <button class="pm-month-arw" data-inc="${k}" title="Aumentar">›</button>
+  </div>`; }
+function wireMtInputs(body,tmp,LIM,render){
+  body.querySelectorAll('[data-input]').forEach(inp=>{
+    inp.addEventListener('change',()=>{ const k=inp.dataset.input; let v=parseInt(String(inp.value).replace(/[^0-9-]/g,''),10); if(isNaN(v)) v=tmp[k]; v=Math.max(LIM[k][0],Math.min(LIM[k][1],v)); tmp[k]=v; render(); });
+    inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); inp.blur(); } });
+  });
+}
+function mtCfgGrid(cards){ return `<div class="mtcfg-grid">${cards}</div>`; }
+function renderQuestoesCard(){
+  const cards=cycleOrder().map(id=>{ const d=DMAP[id]; if(!d) return ''; const c=questoesCfg(id);
+    return `<div class="mtcfg-tile">
+      <div class="mtcfg-name" style="color:${d.color}">${d.short}</div>
+      <div class="mtcfg-val">${c.qtd}<span class="mtcfg-unit">questões</span></div>
+      <button class="goal-gear mtcfg-gear" data-qst="${id}" title="Configurar">${GEAR_SVG}</button>
+    </div>`; }).join('');
+  return `<div class="card card-pad" style="margin-bottom:18px">
+    <div class="card-h" style="display:flex;align-items:center;gap:8px;margin-bottom:4px">Questões <span class="help" tabindex="0" data-tip="Meta de questões por matéria, com percentual de acerto mínimo e ideal.">?</span></div>
+    <div class="card-sub" style="margin-bottom:14px">Defina quantas questões fazer em cada matéria.</div>
+    ${mtCfgGrid(cards)}
+  </div>`;
+}
+function renderHorasIdeaisCard(){
+  const cards=cycleOrder().map(id=>{ const d=DMAP[id]; if(!d) return ''; const c=horasCfg(id);
+    return `<div class="mtcfg-tile">
+      <div class="mtcfg-name" style="color:${d.color}">${d.short}</div>
+      <div class="mtcfg-val">${c.ideal}<span class="mtcfg-unit">horas</span></div>
+      <button class="goal-gear mtcfg-gear" data-hrs="${id}" title="Configurar">${GEAR_SVG}</button>
+    </div>`; }).join('');
+  return `<div class="card card-pad" style="margin-bottom:18px">
+    <div class="card-h" style="display:flex;align-items:center;gap:8px;margin-bottom:4px">Horas ideais <span class="help" tabindex="0" data-tip="Horas ideais e mínimas de estudo por matéria.">?</span></div>
+    <div class="card-sub" style="margin-bottom:14px">Defina as horas ideais e mínimas de cada matéria.</div>
+    ${mtCfgGrid(cards)}
+  </div>`;
+}
+function openQuestoesCfg(id){
+  const d=DMAP[id]; let tmp={...questoesCfg(id)};
+  const LIM={qtd:[0,5000,10],month:[1,36,1],accMin:[0,100,5],accIdeal:[0,100,5]};
+  const render=()=>{
+    showModal(`
+      <div style="font-size:18px;font-weight:800;margin-bottom:16px;text-align:center;color:${d.color}">${d.short} · Questões</div>
+      ${mtArwCtl(tmp,'qtd','quantidade de questões')}
+      ${mtArwCtl(tmp,'month','mês de aplicação')}
+      ${mtArwCtl(tmp,'accMin','% de acerto mínimo','%')}
+      ${mtArwCtl(tmp,'accIdeal','% ideal','%')}
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" id="qSave">Salvar</button>
+    `);
+    const body=document.getElementById('modalBody');
+    body.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.dec; tmp[k]=Math.max(LIM[k][0],tmp[k]-LIM[k][2]); render(); }));
+    body.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.inc; tmp[k]=Math.min(LIM[k][1],tmp[k]+LIM[k][2]); render(); }));
+    wireMtInputs(body,tmp,LIM,render);
+    document.getElementById('qSave').addEventListener('click',()=>{ S.questoes[id]={...tmp}; save(); closeModal(); renderMetas(); });
+  };
+  render();
+}
+function openHorasCfg(id){
+  const d=DMAP[id]; let tmp={...horasCfg(id)};
+  const LIM={ideal:[0,1000,1],min:[0,1000,1],month:[1,36,1]};
+  const render=()=>{
+    showModal(`
+      <div style="font-size:18px;font-weight:800;margin-bottom:16px;text-align:center;color:${d.color}">${d.short} · Horas ideais</div>
+      ${mtArwCtl(tmp,'ideal','horas ideais','h')}
+      ${mtArwCtl(tmp,'month','mês de aplicação')}
+      ${mtArwCtl(tmp,'min','horas mínimas','h')}
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" id="hSave">Salvar</button>
+    `);
+    const body=document.getElementById('modalBody');
+    body.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.dec; tmp[k]=Math.max(LIM[k][0],tmp[k]-LIM[k][2]); render(); }));
+    body.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.inc; tmp[k]=Math.min(LIM[k][1],tmp[k]+LIM[k][2]); render(); }));
+    wireMtInputs(body,tmp,LIM,render);
+    document.getElementById('hSave').addEventListener('click',()=>{ S.horasIdeais[id]={...tmp}; save(); closeModal(); renderMetas(); });
+  };
+  render();
+}
+function wireQuestoesHoras(){
+  document.querySelectorAll('[data-qst]').forEach(b=>b.addEventListener('click',()=>openQuestoesCfg(b.dataset.qst)));
+  document.querySelectorAll('[data-hrs]').forEach(b=>b.addEventListener('click',()=>openHorasCfg(b.dataset.hrs)));
 }
 function cstIcon(type){
   if(type==='check') return `<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -2236,8 +3013,8 @@ function renderEvolucao(){
 }
 
 function renderTimeBars(){
-  const data=DISC.map(d=>({d,m:discMinutes(d.id)}));
-  const max=Math.max(60,...data.map(x=>x.m));
+  const data=DISC.map(d=>({d,m:discMinutes(d.id),ideal:(horasCfg(d.id).ideal||0)*60}));
+  const max=Math.max(60,...data.map(x=>Math.max(x.m,x.ideal)));
   if(totalMinutes()===0){
     return `<div class="empty-state" style="padding:28px"><svg viewBox="0 0 24 24" fill="none"><path d="M12 8v5l3 2M3 12a9 9 0 1 0 3-6.7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><div>Nenhum estudo registrado ainda.<br>Use "Registrar estudo" para começar.</div></div>`;
   }
@@ -2245,8 +3022,10 @@ function renderTimeBars(){
   const fmtCompact=min=>{ if(!min) return ''; const h=Math.floor(min/60),m=min%60; return h? (h+'h'+(m?m:'')) : (m+'m'); };
   return `<div class="bars">${data.map(x=>`
     <div class="bar-col">
-      <div class="bar-val">${fmtCompact(x.m)}</div>
-      <div class="bar-fill-wrap"><div class="bar-fill" style="height:${x.m/max*100}%;background:${x.d.color}"></div></div>
+      <div class="bar-fill-wrap">
+        ${x.ideal>0?`<div class="bar-ideal" style="height:${Math.min(100,x.ideal/max*100)}%"><span class="bar-ideal-val">${fmtCompact(x.ideal)}</span></div>`:''}
+        <div class="bar-fill" style="height:${x.m/max*100}%;background:${x.d.color}">${x.m>0?`<span class="bar-fill-val">${fmtCompact(x.m)}</span>`:''}</div>
+      </div>
       <div class="bar-lbl">${SIGLA[x.d.id]||x.d.short.slice(0,3).toUpperCase()}</div>
     </div>`).join('')}</div>`;
 }
@@ -2501,24 +3280,22 @@ const REVISAO_INTERVALOS=[1,3,7,15,30,45,60];
 // rótulo de qual revisão é (1ª, 2ª, ...)
 function revisaoNumeros(){ return ['1ª','2ª','3ª','4ª','5ª','6ª','7ª','8ª','9ª']; }
 // gera todas as revisões devidas, agrupadas por data (chave dd/mm/aaaa)
+function revSpacings(){
+  // espaçamentos configurados no card Revisões (em dias); fallback para os padrões
+  const cfg=(S.revisoes&&S.revisoes.length)?S.revisoes.map(r=>r.spacing):REVISAO_INTERVALOS;
+  return [...new Set(cfg.filter(v=>v>0))].sort((a,b)=>a-b);
+}
 function buildRevisoesAgendadas(){
-  // cada sessão de TEORIA gera uma série de revisões
+  // cada sessão de TEORIA gera revisões nos espaçamentos configurados no card Revisões
   const porData={}; // "dd/mm/aaaa" -> [{disc, ordem, baseDate}]
+  const spacings=revSpacings();
   S.sessions.filter(s=>s.tipo==='th').forEach(s=>{
     const base=parseBRDate(s.date);
-    let acumulado=0;
-    REVISAO_INTERVALOS.forEach((iv,idx)=>{
-      acumulado=iv; // intervalo é contado a partir do estudo original
+    spacings.forEach((iv,idx)=>{
       const due=new Date(base); due.setDate(base.getDate()+iv);
       const key=dateKeyBR(due);
       (porData[key]=porData[key]||[]).push({disc:s.disc, ordem:idx, baseDate:s.date});
     });
-    // revisões recorrentes além da 7ª: a cada 60 dias
-    for(let n=1;n<=6;n++){
-      const due=new Date(base); due.setDate(base.getDate()+60+n*60);
-      const key=dateKeyBR(due);
-      (porData[key]=porData[key]||[]).push({disc:s.disc, ordem:REVISAO_INTERVALOS.length-1+n, baseDate:s.date});
-    }
   });
   // revisões programadas manualmente (Programar revisões no modal)
   (S.revManual||[]).forEach(r=>{
@@ -2540,22 +3317,88 @@ function buildWeekPlan(){
     const dow=date.getDay();
     const jornada=jornadaDow[dow];
     const tasks=[];
-    // REVISÕES AGENDADAS para este dia (repetição espaçada baseada no que já foi estudado)
-    const revsHoje=revAgenda[dateKeyBR(date)]||[];
-    revsHoje.forEach(r=>{
-      const d=DMAP[r.disc]; if(!d) return;
-      const ord=REVNUM[r.ordem]||((r.ordem+1)+'ª');
-      tasks.push({disc:d, tipo:'rv', isRev:true, h:'0h30min', revOrdem:ord, revBase:r.baseDate});
-    });
-    // tarefas de estudo conforme a configuração de Metas pomodoro do período desta data
     const cfg=pomoMetas()[pomoMetaIndexForDate(date)];
     const wmin=cfg.work||25, mat=cfg.blocks||1;
-    const wh=Math.floor(wmin/60), wm=wmin%60, hstr=wh+'h'+(wm<10?'0'+wm:wm)+'min';
-    const TPAT=['th','ex','th','ex','rv'];
-    allocateBlocks(date,mat).forEach((id,b)=>{ tasks.push({disc:DMAP[id],tipo:TPAT[b%TPAT.length],h:hstr}); });
+    const fmtMin=v=>{ const h=Math.floor(v/60),mm=v%60; return h?`${h}h${mm?(mm<10?'0'+mm:mm)+'min':''}`:`${mm}min`; };
+    const ex=dayExtras(date);
+    const qBi=Math.min(Math.max(1,cfg.qBlock||1),mat), rBi=Math.min(Math.max(1,cfg.revBlock||1),mat);
+    // REVISÕES AGENDADAS para este dia — aparecem sempre que houver matérias a revisar (espaçamento do card Revisões)
+    const revsHoje=revAgenda[dateKeyBR(date)]||[];
+    if(revsHoje.length){
+      const per = ex.rT>0 ? Math.max(1,Math.round(ex.rT/revsHoje.length)) : 0;
+      revsHoje.forEach(r=>{
+        const d=DMAP[r.disc]; if(!d) return;
+        const ord=REVNUM[r.ordem]||((r.ordem+1)+'ª');
+        tasks.push({disc:d, tipo:'rv', isRev:true, h: per>0?fmtMin(per):'', revOrdem:ord, revBase:r.baseDate});
+      });
+    }
+    // tarefas de TEORIA conforme a configuração de Metas pomodoro (descontando questões/revisão dos blocos)
+    allocateBlocks(date,mat).forEach((id,b)=>{
+      let theory=wmin;
+      if(ex.qT>0 && (b+1)===qBi) theory-=ex.qT;
+      if(ex.rT>0 && (b+1)===rBi) theory-=ex.rT;
+      theory=Math.max(0,theory);
+      if(theory>0) tasks.push({disc:DMAP[id],tipo:'th',h:fmtMin(theory)});
+    });
+    // QUESTÕES — após a teoria do bloco configurado
+    if(ex.qT>0 && ex.qDisc) tasks.push({disc:ex.qDisc, tipo:'ex', isQuest:true, h:fmtMin(ex.qT)});
     return {dn:DOWNAMES[dow], dd:date.getDate(), date, tasks, jornada};
   });
   return days;
+}
+function isoOfDate(dt){ return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`; }
+// renderiza as colunas (dias) do quadro semanal — usado na guia Calendário e no card da Visão geral
+function weekColsHTML(daysToShow){
+  const isToday=d=>sameDay(d,TODAY);
+  return daysToShow.map(day=>{
+    const daySessions=S.sessions.filter(s=>sameDay(parseBRDate(s.date),day.date));
+    const pool={};
+    daySessions.forEach(s=>{ const k=s.disc+'|'+s.tipo; (pool[k]=pool[k]||[]).push(s); });
+    const annotated=day.tasks.map(t=>{
+      const key=t.disc.id+'|'+t.tipo;
+      const matched=(pool[key]&&pool[key].length)?pool[key].shift():null;
+      return {t, matched, done:!!matched};
+    });
+    const visibleTasks=annotated.filter(({t,done})=>{
+      const tp=t.isRev?'rv':t.tipo;
+      if(!semFilter[tp]) return false;
+      if(done && !semFilter.hist) return false;
+      return true;
+    });
+    return `
+    <div class="sem-col">
+      <div class="sem-colh${isToday(day.date)?' sem-today':''}" data-calday="${isoOfDate(day.date)}" title="Ver tarefas do dia">
+        <div class="sem-dn">${day.dn}, ${String(day.dd).padStart(2,'0')}</div>
+      </div>
+      <div class="sem-body">
+        ${visibleTasks.length===0?'<div class="sem-empty">—</div>':''}
+        ${visibleTasks.map(({t,matched})=>{
+          if(matched){
+            const realH=fmtH(matched.minutes);
+            return `<div class="sem-card sem-done" data-wtask="${t.disc.id}|${t.tipo}|${isoOfDate(day.date)}">
+              <div class="sem-done-top">
+                <svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px"><path d="M9 11l3 3L22 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                ${t.disc.short}
+              </div>
+              <div class="sem-done-sub">${TIPO_LABEL[t.tipo]}${matched.q?(' · '+matched.q+' questões'):''}</div>
+              <div class="sem-done-h">${realH}</div>
+            </div>`;
+          }
+          if(t.isRev){
+            const ordLbl=t.revOrdem?`${t.revOrdem} revisão`:'Revisão';
+            return `<div class="sem-card sem-rev" data-wtask="${t.disc.id}|rv|${isoOfDate(day.date)}">
+              <div class="sem-card-top"><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px"><path d="M12 8v5l3 2M3 12a9 9 0 1 0 3-6.7L3 8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg> ${ordLbl}</div>
+              <div class="sem-rev-tag" style="background:${t.disc.color}1f;color:${t.disc.color}">${t.disc.short.toUpperCase()}</div>
+            </div>`;
+          }
+          return `<div class="sem-card" style="background:${t.disc.color}1a;border-left:3px solid ${t.disc.color}"
+            data-wtask="${t.disc.id}|${t.tipo}|${isoOfDate(day.date)}">
+            <div class="sem-card-mat" style="color:${t.disc.color}">${t.disc.short}</div>
+            <div class="sem-card-h"><svg viewBox="0 0 24 24" fill="none" style="width:11px;height:11px;opacity:.7"><circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="2"/><path d="M12 9v4M9 2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> ${t.h} · <span style="color:${TIPO_COLOR[t.tipo]}">${TIPO_LABEL[t.tipo]}</span></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;}).join('');
 }
 // filtros de tipo de atividade exibidos no quadro semanal
 let semFilter={th:true, rv:true, ex:true, hist:true};
@@ -2579,57 +3422,7 @@ function renderSemana(){
   <div class="sem-layout">
    <div class="sem-main">
     <div class="sem-grid">
-      ${daysToShow.map(day=>{
-        const daySessions=S.sessions.filter(s=>sameDay(parseBRDate(s.date),day.date));
-        const pool={};
-        daySessions.forEach(s=>{ const k=s.disc+'|'+s.tipo; (pool[k]=pool[k]||[]).push(s); });
-        // 1ª passada: anota cada tarefa com a sessão casada (estudada) consumindo o pool em ordem
-        const annotated=day.tasks.map(t=>{
-          const key=t.disc.id+'|'+t.tipo;
-          const matched=(pool[key]&&pool[key].length)?pool[key].shift():null;
-          return {t, matched, done:!!matched};
-        });
-        // 2ª passada: aplica filtros de tipo e de histórico (oculta estudados se hist=off)
-        const visibleTasks=annotated.filter(({t,done})=>{
-          const tp=t.isRev?'rv':t.tipo;
-          if(!semFilter[tp]) return false;
-          if(done && !semFilter.hist) return false;
-          return true;
-        });
-        return `
-        <div class="sem-col">
-          <div class="sem-colh${isToday(day.date)?' sem-today':''}">
-            <div class="sem-dn">${day.dn}, ${String(day.dd).padStart(2,'0')}</div>
-          </div>
-          <div class="sem-body">
-            ${visibleTasks.length===0?'<div class="sem-empty">—</div>':''}
-            ${visibleTasks.map(({t,matched})=>{
-              if(matched){
-                const realH=fmtH(matched.minutes);
-                return `<div class="sem-card sem-done" data-wtask="${t.disc.id}|${t.tipo}|${day.dn} ${day.dd}">
-                  <div class="sem-done-top">
-                    <svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px"><path d="M9 11l3 3L22 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                    ${t.disc.short}
-                  </div>
-                  <div class="sem-done-sub">${TIPO_LABEL[t.tipo]}${matched.q?(' · '+matched.q+' questões'):''}</div>
-                  <div class="sem-done-h">${realH}</div>
-                </div>`;
-              }
-              if(t.isRev){
-                const ordLbl=t.revOrdem?`${t.revOrdem} revisão`:'Revisão';
-                return `<div class="sem-card sem-rev" data-wtask="${t.disc.id}|rv|${day.dn} ${day.dd}">
-                  <div class="sem-card-top"><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px"><path d="M12 8v5l3 2M3 12a9 9 0 1 0 3-6.7L3 8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg> ${ordLbl}</div>
-                  <div class="sem-rev-tag" style="background:${t.disc.color}1f;color:${t.disc.color}">${t.disc.short.toUpperCase()}</div>
-                </div>`;
-              }
-              return `<div class="sem-card" style="background:${t.disc.color}1a;border-left:3px solid ${t.disc.color}"
-                data-wtask="${t.disc.id}|${t.tipo}|${day.dn} ${day.dd}">
-                <div class="sem-card-mat" style="color:${t.disc.color}">${t.disc.short}</div>
-                <div class="sem-card-h"><svg viewBox="0 0 24 24" fill="none" style="width:11px;height:11px;opacity:.7"><circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="2"/><path d="M12 9v4M9 2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> ${t.h} · <span style="color:${TIPO_COLOR[t.tipo]}">${TIPO_LABEL[t.tipo]}</span></div>
-              </div>`;
-            }).join('')}
-          </div>
-        </div>`;}).join('')}
+      ${weekColsHTML(daysToShow)}
     </div>
    </div>
 
@@ -2645,17 +3438,18 @@ function renderSemana(){
      </div>
      <div class="rev-rule">
        <div class="rev-rule-title">Revisão espaçada</div>
-       <div class="rev-rule-text">Cada teoria estudada gera revisões automáticas em: <b>1, 3, 7, 15, 30 e 60 dias</b>, depois a cada 60 dias.</div>
+       <div class="rev-rule-text">Cada teoria estudada gera revisões automáticas em: <b>${revSpacings().join(', ')} dias</b> (conforme o card Revisões).</div>
      </div>
    </aside>
   </div>`;
 
   el.querySelectorAll('[data-wtask]').forEach(w=>{
     w.addEventListener('click',()=>{
-      const[dId,tipo,dn]=w.dataset.wtask.split('|');
-      openTaskDetail(DMAP[dId],tipo,dn);
+      const[dId,tipo,iso]=w.dataset.wtask.split('|');
+      openTaskDetail(DMAP[dId],tipo,iso);
     });
   });
+  el.querySelectorAll('[data-calday]').forEach(h=>h.addEventListener('click',()=>showCalDay(h.dataset.calday)));
   // filtros
   el.querySelectorAll('.sem-filter').forEach(f=>f.addEventListener('click',e=>{
     e.preventDefault();
@@ -2710,19 +3504,49 @@ function renderMiniCal(weekDates){
     ${semanaOffset!==0?`<button class="mc-today-btn" id="mcToday"><svg viewBox="0 0 24 24" fill="none" style="width:13px;height:13px"><path d="M3 10h18M7 3v3M17 3v3M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="15" r="2" fill="currentColor"/></svg> Voltar para hoje</button>`:''}
   </div>`;
 }
-function openTaskDetail(d,tipo,dn){
+function openTaskDetail(d,tipo,iso){
   const blocks={
     th:['Leitura ativa da teoria (PDF/videoaula)','Anotações em resumo próprio','Marcação dos pontos-chave no edital'],
     rv:['Releitura do resumo da semana','Flashcards / mapa mental','Revisão dos erros anteriores'],
     ex:['Bateria de questões CEBRASPE','Correção comentada','Registro dos itens com baixo acerto'],
   };
+  // compatibilidade: se vier rótulo antigo (sem ISO), tenta hoje
+  let date, label;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(iso||'')){ const [y,m,dd]=iso.split('-').map(Number); date=new Date(y,m-1,dd);
+    const DOW=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    label=`${DOW[date.getDay()]}, ${String(dd).padStart(2,'0')}/${String(m).padStart(2,'0')}`;
+  } else { date=null; label=iso||''; }
+  // tempo previsto desta tarefa (para registrar ao concluir)
+  let plannedMin=0, done=false;
+  if(date){
+    done=S.sessions.some(s=>s.disc===d.id && s.tipo===tipo && sameDay(parseBRDate(s.date),date));
+    const ex=dayExtras(date);
+    if(tipo==='th'){ const o=dayMateriaSummary(date).find(x=>x.disc.id===d.id); plannedMin=o?o.min:0;
+      if(ex.qDisc&&ex.qDisc.id===d.id) plannedMin-=ex.qT; if(ex.revBlockDisc&&ex.revBlockDisc.id===d.id) plannedMin-=ex.rT; plannedMin=Math.max(0,plannedMin); }
+    else if(tipo==='ex'){ plannedMin=ex.qT; }
+    else if(tipo==='rv'){ plannedMin=ex.rT; }
+  }
   showModal(`
-    <div style="font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em">${dn} · ${TIPO_LABEL[tipo]}</div>
+    <div style="font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em">${label} · ${TIPO_LABEL[tipo]}</div>
     <div style="font-size:20px;font-weight:800;color:${d.color};margin:2px 0 16px">${d.name}</div>
     <div class="section-title" style="margin:0 0 10px">Sugestão de execução</div>
     ${blocks[tipo].map((b,i)=>`<div class="task-detail-line"><div class="tdl-time">Bloco ${i+1}</div><div>${b}</div></div>`).join('')}
-    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px" onclick="closeModal();openTimer('${d.id}','${tipo}')">Iniciar este estudo</button>
+    ${date?`<button class="td-conclude${done?' on':''}" id="tdConclude">
+      <span class="td-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      ${done?'Tarefa concluída':'Marcar como concluída'}
+    </button>`:''}
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px" onclick="closeModal();openTimer('${d.id}','${tipo}')">Iniciar este estudo</button>
   `);
+  const cc=document.getElementById('tdConclude');
+  if(cc) cc.addEventListener('click',()=>{
+    const di=S.sessions.findIndex(s=>s.disc===d.id && s.tipo===tipo && sameDay(parseBRDate(s.date),date));
+    if(di>=0) S.sessions.splice(di,1);
+    else S.sessions.push({date:dateKeyBR(date),disc:d.id,tipo,minutes:plannedMin||0,q:0,qr:0,cal:true});
+    save();
+    openTaskDetail(d,tipo,iso); // re-renderiza com novo estado
+    try{ if(document.getElementById('dashSemanaMount')) renderDashWeek(); }catch(e){}
+    try{ if(document.getElementById('semanaMount')) renderSemana(); }catch(e){}
+  });
 }
 
 // ════════ CALENDÁRIO ════════
@@ -2750,12 +3574,18 @@ function allocateBlocks(date,nBlocks){
   const active=cycleOrder().filter(id=>isDiscActiveOn(id,date));
   if(!active.length || nBlocks<=0) return [];
   if(nBlocks<active.length){
-    // menos blocos que matérias: a janela gira pelos dias (cobre todas no ciclo), exibida na ordem
-    const start=((cicloDayNumber(date)*nBlocks)%active.length+active.length)%active.length;
-    const idxs=[];
-    for(let k=0;k<nBlocks;k++) idxs.push((start+k)%active.length);
-    idxs.sort((a,b)=>a-b);
-    return idxs.map(i=>active[i]);
+    // menos blocos que matérias: rotação contínua a partir da data de entrada (1º dia = as primeiras da ordem),
+    // continuando a cada dia e dando a volta (wrap), seguindo a "Ordem no ciclo", até entrarem mais matérias
+    let ep=null;
+    active.forEach(id=>{ const br=S.agenda&&S.agenda[id]; if(br){ const dd=parseBRDate(br); if(dd&&(!ep||dd<ep)) ep=dd; } });
+    if(!ep){ const g=S.goals; ep=(g&&g.horasDiaInicio)?new Date(g.horasDiaInicio+'T00:00:00'):new Date(2026,0,1); }
+    ep.setHours(0,0,0,0);
+    const dd=new Date(date); dd.setHours(0,0,0,0);
+    const counter=Math.max(0,Math.floor((dd-ep)/86400000));
+    const start=((counter*nBlocks)%active.length+active.length)%active.length;
+    const seq=[];
+    for(let k=0;k<nBlocks;k++) seq.push(active[(start+k)%active.length]);
+    return seq;
   }
   // blocos suficientes: todas recebem 1 (na ordem); o excedente é distribuído por peso (maior resto)
   const counts={}; active.forEach(id=>counts[id]=1);
@@ -2789,6 +3619,23 @@ function dayMateriaSummary(date){
   dayStudyBlocks(date).forEach(b=>{ const k=b.disc.id; (by[k]=by[k]||{disc:b.disc,min:0,n:0,tipo:b.tipo}); by[k].min+=b.min; by[k].n++; });
   return Object.values(by);
 }
+// tempos de Questões/Revisões configurados no Metas pomodoro, aplicados a esta data
+function dayExtras(date){
+  const cfg=pomoMetas()[pomoMetaIndexForDate(date)];
+  const wmin=cfg.work||25, nBlocks=cfg.blocks||1;
+  const ids=allocateBlocks(date,nBlocks);
+  if(!ids.length) return {qT:0,rT:0,qDisc:null,revBlockDisc:null,revDiscs:[],hasRev:false};
+  const qB=Math.min(Math.max(1,cfg.qBlock||1),nBlocks), qT=Math.min(cfg.qTime||0,wmin);
+  const rB=Math.min(Math.max(1,cfg.revBlock||1),nBlocks);
+  const revDue=buildRevisoesAgendadas()[dateKeyBR(date)]||[];
+  const rT=revDue.length?Math.min(cfg.revTime||0,wmin):0; // tempo reservado (pode ser 0)
+  const qDisc=qT>0?DMAP[ids[qB-1]]:null;
+  const revBlockDisc=rT>0?DMAP[ids[rB-1]]:null;
+  // matérias a revisar no dia — independem do tempo configurado (seguem o espaçamento do card Revisões)
+  let revDiscs=[];
+  if(revDue.length){ const seen=new Set(); revDue.forEach(r=>{ if(!seen.has(r.disc)&&DMAP[r.disc]){ seen.add(r.disc); revDiscs.push(DMAP[r.disc]); } }); }
+  return {qT, rT, qDisc, revBlockDisc, revDiscs, hasRev:revDiscs.length>0};
+}
 function calTaskForDate(date){
   const d=date.getDate();
   const ci=(S.cyclePos + (d-1));
@@ -2803,27 +3650,68 @@ function calTaskForDate(date){
 function showCalDay(iso){
   const [y,m,d]=iso.split('-').map(Number);
   const date=new Date(y,m-1,d);
-  const list=dayMateriaSummary(date);
   const fmtMin=v=>v>=60?fmtH(v):v+'min';
   const dows=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
   const MN=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-  const totalMin=list.reduce((s,o)=>s+o.min,0);
-  const body = list.length===0
-    ? `<div style="padding:18px;border:1px dashed var(--line2);border-radius:12px;text-align:center;color:var(--ink2);font-weight:600">Nenhuma matéria entra no cronograma nesta data.</div>`
-    : list.map(o=>`
-      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px">
-        <span style="width:10px;height:40px;border-radius:6px;background:${o.disc.color};flex:none"></span>
+  // teoria por matéria, descontando o tempo reservado a Questões/Revisões nos blocos configurados
+  const ex=dayExtras(date);
+  const doneOf=(discId,tipo)=>S.sessions.some(s=>s.disc===discId && s.tipo===tipo && sameDay(parseBRDate(s.date),date));
+  const chk=(discId,tipo,min,done)=>`<button class="cd-check${done?' on':''}" data-cdtoggle="${discId}|${tipo}|${min}" title="${done?'Concluído — clique para desfazer':'Marcar como concluído'}"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+  const list=dayMateriaSummary(date).map(o=>({...o}));
+  if(ex.qT>0 && ex.qDisc){ const o=list.find(x=>x.disc.id===ex.qDisc.id); if(o) o.min=Math.max(0,o.min-ex.qT); }
+  if(ex.rT>0 && ex.revBlockDisc){ const o=list.find(x=>x.disc.id===ex.revBlockDisc.id); if(o) o.min=Math.max(0,o.min-ex.rT); }
+  const matRows=list.filter(o=>o.min>0).map(o=>{ const done=doneOf(o.disc.id,'th'); return `
+      <div class="cd-row${done?' cd-done':''}">
+        <span class="cd-bar" style="background:${o.disc.color}"></span>
         <div style="flex:1;min-width:0">
-          <div style="font-weight:800;font-size:14.5px;color:${o.disc.color}">${o.disc.name}</div>
-          <div style="font-size:12px;color:var(--ink2);font-weight:600;margin-top:3px">${o.n} ${o.n===1?'bloco':'blocos'} · ${fmtMin(o.min)} de estudo líquido</div>
+          <div class="cd-name" style="color:${o.disc.color}">${o.disc.name}</div>
+          <div class="cd-sub">${o.n} ${o.n===1?'bloco':'blocos'} · ${fmtMin(o.min)} de teoria</div>
         </div>
-      </div>`).join('');
+        ${chk(o.disc.id,'th',o.min,done)}
+      </div>`;}).join('');
+  const qRow = (ex.qT>0 && ex.qDisc) ? (()=>{ const done=doneOf(ex.qDisc.id,'ex'); return `
+      <div class="cd-row${done?' cd-done':''}">
+        <span class="cd-bar" style="background:#f59e0b"></span>
+        <div style="flex:1;min-width:0">
+          <div class="cd-name" style="color:#f59e0b">Questões${ex.qDisc?` · ${ex.qDisc.short}`:''}</div>
+          <div class="cd-sub">${fmtMin(ex.qT)} · após a teoria</div>
+        </div>
+        ${chk(ex.qDisc.id,'ex',ex.qT,done)}
+      </div>`;})() : '';
+  const rRows = ex.hasRev ? ex.revDiscs.map(rd=>{ const done=doneOf(rd.id,'rv'); return `
+      <div class="cd-row${done?' cd-done':''}">
+        <span class="cd-bar" style="background:#8b5cf6"></span>
+        <div style="flex:1;min-width:0">
+          <div class="cd-name" style="color:#8b5cf6">Revisão · ${rd.short}</div>
+          <div class="cd-sub">${ex.rT>0?fmtMin(ex.rT)+' · ':''}revisão espaçada</div>
+        </div>
+        ${chk(rd.id,'rv',ex.rT,done)}
+      </div>`;}).join('') : '';
+  const totalMin=list.filter(o=>o.min>0).reduce((s,o)=>s+o.min,0)+ex.qT+ex.rT;
+  const hasAny = matRows || qRow || rRows;
+  const body = !hasAny
+    ? `<div style="padding:18px;border:1px dashed var(--line2);border-radius:12px;text-align:center;color:var(--ink2);font-weight:600">Nenhuma matéria entra no cronograma nesta data.</div>`
+    : matRows+qRow+rRows;
   showModal(`
     <div style="font-size:18px;font-weight:800;margin-bottom:3px">${dows[date.getDay()]}, ${d} de ${MN[m-1]} de ${y}</div>
-    <div class="card-sub" style="margin-bottom:16px">Estudo programado${list.length?` · ${fmtMin(totalMin)} no total`:''}</div>
+    <div class="card-sub" style="margin-bottom:16px">Estudo programado${hasAny?` · ${fmtMin(totalMin)} no total`:''}</div>
     ${body}
     <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="closeModal()">Fechar</button>
   `);
+  document.querySelectorAll('#modalBody [data-cdtoggle]').forEach(b=>b.addEventListener('click',()=>{
+    const [discId,tipo,min]=b.dataset.cdtoggle.split('|');
+    toggleCalTask(iso,discId,tipo,+min);
+  }));
+}
+function toggleCalTask(iso,discId,tipo,min){
+  const [y,m,d]=iso.split('-').map(Number); const date=new Date(y,m-1,d);
+  const idx=S.sessions.findIndex(s=>s.disc===discId && s.tipo===tipo && sameDay(parseBRDate(s.date),date));
+  if(idx>=0) S.sessions.splice(idx,1);
+  else S.sessions.push({date:dateKeyBR(date),disc:discId,tipo,minutes:min||0,q:0,qr:0,cal:true});
+  save();
+  showCalDay(iso); // re-renderiza o modal já com o novo estado
+  try{ if(document.getElementById('dashSemanaMount')) renderDashWeek(); }catch(e){}
+  try{ if(document.getElementById('semanaMount')) renderSemana(); }catch(e){}
 }
 function renderCal(){
   const el=document.getElementById('panel-cal');
@@ -2883,9 +3771,12 @@ function renderCal(){
         if(!list.length) return `<div class="${cls}" data-calsel="${isoOf(c.date)}"><div class="cal-dnum">${dn}</div></div>`;
         const lines=list.slice(0,2).map(o=>`<div class="cal-mat" style="color:${o.disc.color}">${SIGLA[o.disc.id]||o.disc.short.slice(0,3).toUpperCase()} · ${fmtMin(o.min)}</div>`).join('');
         const more=list.length>2?`<div class="cal-h">+${list.length-2} matéria${list.length-2>1?'s':''}</div>`:'';
+        const ex=dayExtras(c.date);
+        const tags=(ex.qT>0?`<span class="cal-tag" style="background:#f59e0b" title="Questões"></span>`:'')+(ex.hasRev?`<span class="cal-tag" style="background:#8b5cf6" title="Revisão"></span>`:'');
         return `<div class="${cls}" data-calsel="${isoOf(c.date)}">
           <div class="cal-dnum">${dn}</div>
           ${lines}${more}
+          ${tags?`<div class="cal-tags">${tags}</div>`:''}
           <div class="cal-stripe" style="background:${list[0].disc.color}"></div>
         </div>`;
       }).join('')}
@@ -3054,7 +3945,7 @@ function wireAgendaCard(){
       const br=isoToBR(iso);
       if(!S.agenda) S.agenda={};
       S.agenda[id]=br; save();
-      if(lbl) lbl.textContent=br;
+      if(lbl) lbl.textContent=brShort(br);
     }});
   }));
 }
@@ -3062,45 +3953,92 @@ function wireAgendaCard(){
 function configMateriasCardHTML(){
   const order=cycleOrder();
   return `<div class="card card-pad" style="margin-bottom:18px">
-    <div class="card-h" style="display:flex;align-items:center;gap:8px;margin-bottom:14px">Configuração de matérias <span class="help" tabindex="0" data-tip="Para cada matéria: peso no edital, ordem no ciclo de estudos e a data em que entra no cronograma.">?</span></div>
+    <div class="card-h" style="display:flex;align-items:center;gap:8px;margin-bottom:14px">Configuração de matérias <span class="help" tabindex="0" data-tip="Para cada matéria: ordem no ciclo de estudos e, na engrenagem, peso, questões, horas e cor.">?</span></div>
     <div class="cfg-grid">
       ${order.map((id,i)=>{ const d=DMAP[id]; if(!d) return '';
-        const peso=Math.max(1,Math.min(5,d.peso||1)); const pct=Math.round(peso/5*100);
-        const ag=(S.agenda&&S.agenda[id])||'';
-        return `<div class="cfg-tile" data-mat="${id}">
-          <div class="cfg-head">
-            <span class="cfg-name" style="color:${d.color}">${d.short}</span>
-            <span class="peso-tipo">${d.tipo}</span>
-          </div>
-          <div class="cfg-blocks">
-          <div class="cfg-block">
-            <label>Peso</label>
-            <div class="cfg-peso">
-              <div class="peso-prog"><i style="width:${pct}%;background:${d.color}"></i><span class="peso-num">${peso}</span></div>
-              <button class="peso-btn" data-peso-dec="${id}" title="Diminuir">−</button>
-              <button class="peso-btn" data-peso-inc="${id}" title="Aumentar">+</button>
+        return `<div class="cfg-tile" data-mat="${id}" style="--accent:${d.color}">
+          <span class="cfg-tipo" style="background:${d.color}1a;color:${d.color}">${d.tipo}</span>
+          <div class="cfg-name" style="color:${d.color}">${d.short}</div>
+          <div class="cfg-ordbox">
+            <div class="cfg-ord-cap">Ordem no ciclo</div>
+            <div class="cfg-ord">
+              <button class="cfg-ord-btn" data-cyc-up="${id}" ${i===0?'disabled':''} title="Antecipar">‹</button>
+              <span class="cfg-ord-num" style="color:${d.color}">${i+1}</span>
+              <button class="cfg-ord-btn" data-cyc-down="${id}" ${i===order.length-1?'disabled':''} title="Adiar">›</button>
             </div>
           </div>
-          <div class="cfg-block">
-            <label>Ordem no ciclo</label>
-            <div class="cfg-order">
-              <button class="ord-btn" data-cyc-up="${id}" ${i===0?'disabled':''} title="Subir">▲</button>
-              <span class="cfg-pos">${i+1}º</span>
-              <button class="ord-btn" data-cyc-down="${id}" ${i===order.length-1?'disabled':''} title="Descer">▼</button>
-            </div>
-          </div>
-          <div class="cfg-block">
-            <label>Entrada no cronograma</label>
-            <button type="button" class="dp-trigger agenda-trigger" data-id="${id}">
-              <span class="agenda-lbl">${ag?attrEsc(ag):'Selecionar data'}</span>
-              <svg viewBox="0 0 24 24" fill="none"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
-          </div>
+          <button class="cfg-gear" data-matcfg="${id}" title="Configurar">${GEAR_SVG}</button>
         </div>`; }).join('')}
     </div>
   </div>`;
 }
+function openMateriaCfg(id){
+  const d=DMAP[id];
+  const q=questoesCfg(id), h=horasCfg(id);
+  let tmp={ peso:Math.max(1,Math.min(5,d.peso||1)), qtd:q.qtd, accMin:q.accMin, accIdeal:q.accIdeal,
+            hmin:h.min, hideal:h.ideal, qmonth:q.month||1, hmonth:h.month||1, color:discColor(id) };
+  const LIM={ peso:[1,5,1], qtd:[0,5000,10], accMin:[0,100,5], accIdeal:[0,100,5], hmin:[0,1000,1], hideal:[0,1000,1] };
+  const COLORS=['#00c2a8','#f59e0b','#6366f1','#ec4899','#0ea5e9','#ef4444'];
+  const numCtl=(k,suf)=>`<div class="nctl">
+      <button class="nctl-b" data-dec="${k}">−</button>
+      <div class="nctl-mid"><input class="nctl-i" data-inp="${k}" type="text" inputmode="numeric" value="${tmp[k]}">${suf?`<span class="nctl-suf">${suf}</span>`:''}</div>
+      <button class="nctl-b" data-inc="${k}">+</button>
+    </div>`;
+  const render=()=>{
+    const pesoPct=tmp.peso/5*100;
+    const inPreset=COLORS.some(c=>c.toLowerCase()===String(tmp.color).toLowerCase());
+    showModal(`
+      <div style="font-size:16px;font-weight:800;margin-bottom:14px;text-align:center;text-transform:uppercase;letter-spacing:.02em;color:${tmp.color}">${d.short}</div>
+      <div class="cfg-box mt-box"><div class="cfg-box-h" style="text-align:center">Peso</div>
+        <div class="cfg-peso">
+          <button class="peso-btn" data-dec="peso" title="Diminuir">−</button>
+          <div class="peso-prog"><i style="width:${pesoPct}%;background:${tmp.color}"></i><span class="peso-num">${tmp.peso}</span></div>
+          <button class="peso-btn" data-inc="peso" title="Aumentar">+</button>
+        </div>
+      </div>
+      <div class="cfg-box mt-box"><div class="cfg-box-h" style="text-align:center">Questões</div>
+        <div class="mt-sub"><div class="mt-sub-h">Quantidade de questões</div>${numCtl('qtd')}</div>
+        <div class="mt-sub"><div class="mt-sub-h">Porcentagem de acerto</div>
+          <div class="two-col">
+            <div class="mt-mini"><div class="mt-sub-h">Mínimo</div>${numCtl('accMin','%')}</div>
+            <div class="mt-mini"><div class="mt-sub-h">Ideal</div>${numCtl('accIdeal','%')}</div>
+          </div>
+        </div>
+      </div>
+      <div class="cfg-box mt-box"><div class="cfg-box-h" style="text-align:center">Horas</div>
+        <div class="two-col">
+          <div class="mt-mini"><div class="mt-sub-h">Horas mínimas</div>${numCtl('hmin')}</div>
+          <div class="mt-mini"><div class="mt-sub-h">Horas ideais</div>${numCtl('hideal')}</div>
+        </div>
+      </div>
+      <div class="cfg-box mt-box"><div class="cfg-box-h" style="text-align:center">Cor da matéria</div>
+        <div class="color-row">
+          ${COLORS.map(c=>`<button class="color-sw${c.toLowerCase()===String(tmp.color).toLowerCase()?' on':''}" data-color="${c}" style="background:${c}"></button>`).join('')}
+          <label class="color-custom${!inPreset?' on':''}" title="Cor personalizada" style="${!inPreset?`background:${tmp.color};border-style:solid;border-color:var(--ink);color:#fff`:''}"><input type="color" id="matColor" value="${tmp.color}"><span>${inPreset?'+':''}</span></label>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" id="matSave">Salvar</button>
+    `);
+    const body=document.getElementById('modalBody');
+    body.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.dec; tmp[k]=Math.max(LIM[k][0],tmp[k]-LIM[k][2]); render(); }));
+    body.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.inc; tmp[k]=Math.min(LIM[k][1],tmp[k]+LIM[k][2]); render(); }));
+    body.querySelectorAll('[data-inp]').forEach(inp=>{
+      inp.addEventListener('change',()=>{ const k=inp.dataset.inp; let v=parseInt(String(inp.value).replace(/[^0-9-]/g,''),10); if(isNaN(v)) v=tmp[k]; v=Math.max(LIM[k][0],Math.min(LIM[k][1],v)); tmp[k]=v; render(); });
+      inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); inp.blur(); } });
+    });
+    body.querySelectorAll('[data-color]').forEach(b=>b.addEventListener('click',()=>{ tmp.color=b.dataset.color; render(); }));
+    const cp=document.getElementById('matColor'); if(cp) cp.addEventListener('input',()=>{ tmp.color=cp.value; render(); });
+    document.getElementById('matSave').addEventListener('click',()=>{
+      d.peso=tmp.peso; S.pesos=S.pesos||{}; S.pesos[id]=tmp.peso;
+      S.questoes[id]={qtd:tmp.qtd, month:tmp.qmonth, accMin:tmp.accMin, accIdeal:tmp.accIdeal};
+      S.horasIdeais[id]={ideal:tmp.hideal, min:tmp.hmin, month:tmp.hmonth};
+      S.discColors=S.discColors||{}; S.discColors[id]=tmp.color; DMAP[id].color=tmp.color;
+      rebuildCycle(); save(); closeModal(); renderMetas();
+    });
+  };
+  render();
+}
+function discColor(id){ return (S.discColors&&S.discColors[id]) || (DMAP[id]&&DMAP[id].color) || '#00c2a8'; }
 function renderMetas(){
   const el=document.getElementById('panel-metas');
   const wq=weekQ();
@@ -3119,6 +4057,8 @@ function renderMetas(){
     ${renderPomoMetasCard()}
   </div>
   ${configMateriasCardHTML()}
+  ${renderGantt()}
+  ${renderRevisoesCard()}
   <div class="card card-pad" style="margin-bottom:18px">
     <div class="card-h" style="margin-bottom:14px">Metas</div>
     <div class="goal-row">
@@ -3134,62 +4074,17 @@ function renderMetas(){
       <button class="goal-gear" id="editGoalsQ" title="Editar meta questões">${GEAR_SVG}</button>
     </div>
   </div>
-  <div class="card card-pad" style="margin-bottom:18px">
-    <div class="card-h">Desempenho em questões</div>
-    <div class="card-sub" style="margin-bottom:18px">Aproveitamento por disciplina</div>
-    ${DISC.map(d=>{const dq=discQ(d.id),dqr=discQR(d.id),a=dq?Math.round(dqr/dq*100):null;
-      if(a===null) return '';
-      let col=a>=70?'var(--green)':a>=50?'var(--amber)':'var(--pink)';
-      return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:11px">
-        <div style="width:90px;font-size:12px;font-weight:600">${d.short}</div>
-        <div style="flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden"><i style="display:block;height:100%;width:${a}%;background:${col};border-radius:4px"></i></div>
-        <div style="font-size:12px;font-weight:800;color:${col};min-width:60px;text-align:right">${a}% · ${dq}q</div>
-      </div>`;}).join('') || `<div class="empty-state" style="padding:20px"><div>Resolva questões para ver seu aproveitamento por matéria.</div></div>`}
-    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between">
-      <span style="font-weight:700">Aproveitamento geral</span>
-      <span style="font-weight:800;color:var(--brand)">${acc}% (${qr}/${q})</span>
-    </div>
-  </div>
-  <div class="card card-pad chart-card" style="margin-bottom:18px">
-    <div class="weekly-head prog-head">
-      <div class="card-h">Evolução</div>
-      <div class="prog-row">
-        <div class="seg-toggle" id="evoPeriodToggle">
-          <button data-evoper="semana" class="seg-on">Semana</button>
-          <button data-evoper="mes">Mês</button>
-          <button data-evoper="total">Total</button>
-        </div>
-        <div class="seg-toggle" id="evoModeToggle">
-          <button data-evomode="tempo" class="seg-on">Tempo</button>
-          <button data-evomode="questoes">Questões</button>
-        </div>
-      </div>
-    </div>
-    <div id="evoChart" class="chart-fill"></div>
-  </div>
-  <div class="card card-pad">
-    <div class="card-h">Constância — distribuição de tempo</div>
-    <div class="card-sub" style="margin-bottom:8px">Por tipo de atividade</div>
-    ${renderTipoSplit()}
-  </div>
   <div id="editalMount" style="margin-top:18px"></div>`;
   document.getElementById('editGoals').addEventListener('click',openGoalsModal);
   document.getElementById('editGoalsQ').addEventListener('click',openGoalsModalQ);
   el.querySelectorAll('[data-pm]').forEach(b=>b.addEventListener('click',()=>openPomoMetaCfg(+b.dataset.pm)));
+  { const pa=document.getElementById('pmAdd'); if(pa) pa.addEventListener('click',()=>openPomoMetaCfg(null)); }
   wirePesoCard(renderMetas);
   wireCicloOrderCard();
+  document.querySelectorAll('[data-matcfg]').forEach(b=>b.addEventListener('click',()=>openMateriaCfg(b.dataset.matcfg)));
   wireAgendaCard();
-  evoPeriod='semana'; evoMode='tempo';
-  renderEvo();
-  document.querySelectorAll('#evoPeriodToggle button').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('#evoPeriodToggle button').forEach(x=>x.classList.remove('seg-on'));
-    b.classList.add('seg-on'); evoPeriod=b.dataset.evoper; renderEvo();
-  }));
-  document.querySelectorAll('#evoModeToggle button').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('#evoModeToggle button').forEach(x=>x.classList.remove('seg-on'));
-    b.classList.add('seg-on'); evoMode=b.dataset.evomode; renderEvo();
-  }));
-  requestAnimationFrame(()=>renderEvo());
+  wireGantt();
+  wireRevisoes();
   renderEdital();
 }
 function renderTipoSplit(){
@@ -3278,52 +4173,107 @@ function pomoDonut(cfg){
   return `<svg width="100%" height="100%" viewBox="0 0 ${size} ${size}">${svg}</svg>`;
 }
 function renderPomoMetasCard(){
-  return `<div class="pmd-grid">`+pomoMetas().map((cfg,i)=>{
+  const PMD_ACCENTS=['#ff6b57','#6366f1','#16b981','#f59e0b','#ec4899','#0ea5e9','#8b5cf6','#14b8a6'];
+  const tiles=pomoMetas().map((cfg,i)=>{
     const blocks=pomoMetaBlocks(cfg);
     const focos=blocks.filter(b=>b.type==='work').length;
     const netMin=blocks.filter(b=>b.type==='work').reduce((a,b)=>a+b.min,0);
-    return `<div class="pmd-tile">
-      <div class="pmd-head">
-        <div class="pmd-title">${POMO_META_LABELS[i]}</div>
-        <button class="goal-gear" data-pm="${i}" title="Configurar">${GEAR_SVG}</button>
-      </div>
+    const accent=PMD_ACCENTS[i%PMD_ACCENTS.length];
+    return `<div class="pmd-tile" style="--accent:${accent}">
+      <div class="pmd-title" style="background:${accent}1a;color:${accent}">${cfg.month}° mês</div>
       <div class="pmd-donut">
         ${pomoDonut(cfg)}
         <div class="pmd-center"><div class="big">${fmtH(netMin)}</div><div class="lbl">Líquidas</div></div>
       </div>
-      <div class="pmd-stats">
-        <div>Matérias: <b>${cfg.materias}</b></div>
-        <div>Blocos de foco: <b>${focos}</b></div>
-      </div>
+      <div class="pmd-stat"><span class="pmd-stat-l">Blocos de foco</span><span class="pmd-stat-v">${focos}</span></div>
+      <button class="pmd-gear" data-pm="${i}" title="Configurar">${GEAR_SVG}</button>
     </div>`;
-  }).join('')+`</div>`;
+  }).join('');
+  const add=`<button class="pmd-add" id="pmAdd" title="Adicionar pomodoro">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+  </button>`;
+  return `<div class="pmd-grid">${tiles}${add}</div>`;
 }
 function openPomoMetaCfg(i){
-  const ms=pomoMetas(); let tmp={...ms[i]};
-  const LIM={blocks:[1,12,1],work:[5,90,5],short:[1,30,1],long:[5,60,5],materias:[1,12,1]};
-  const stepRow=(k,lbl,extra='')=>`<div class="cfg-row ${extra}"><span class="cfg-lbl">${lbl}</span><div class="stepper"><button class="step-btn" data-dec="${k}">−</button><b>${tmp[k]}</b><button class="step-btn" data-inc="${k}">+</button></div></div>`;
-  const render=()=>{
-    const blocks=pomoMetaBlocks(tmp);
-    const focoMin=blocks.filter(b=>b.type==='work').reduce((a,b)=>a+b.min,0);
-    const bar=blocks.map(b=>`<div class="pm-seg" style="flex:${b.min};background:${POMO_COLORS[b.type]}">${b.min>=10?b.min:''}</div>`).join('');
-    showModal(`
-      <div style="font-size:18px;font-weight:800;margin-bottom:12px">${POMO_META_LABELS[i]} · Pomodoro<span class="help-badge" data-tip="Configure os blocos, os tempos e a quantidade de matérias deste período.">?</span></div>
-      <div style="text-transform:uppercase;color:var(--ink);font-weight:800;font-size:15px;margin-bottom:8px;text-align:center">Horas líquidas: ${fmtH(focoMin)}</div>
-      <div class="pm-bar" style="margin-bottom:14px">${bar}</div>
-      ${stepRow('blocks','Blocos de foco','no-line')}
-      <div class="cfg-box">
-        <div class="cfg-box-h">Tempos</div>
-        ${stepRow('work','Estudo (foco) · min')}
-        ${stepRow('short','Pausa curta · min')}
-        ${stepRow('long','Pausa longa · min')}
+  const ms=pomoMetas();
+  const isNew = (i===null || i===undefined);
+  let tmp = isNew
+    ? {month:(ms.reduce((mx,c)=>Math.max(mx,c.month),0)+1), work:25, short:5, long:15, blocks:4, revBlock:1, revTime:0, qBlock:1, qTime:0}
+    : {...ms[i]};
+  if(tmp.revBlock==null) tmp.revBlock=1; if(tmp.revTime==null) tmp.revTime=0;
+  if(tmp.qBlock==null) tmp.qBlock=1; if(tmp.qTime==null) tmp.qTime=0;
+  const LIM={blocks:[1,14,1],work:[5,90,5],short:[1,30,1],long:[5,60,5],month:[1,36,1],
+             revBlock:[1,14,1],revTime:[0,90,5],qBlock:[1,14,1],qTime:[0,90,5]};
+  const SEGCOL={work:'#ff6b57',short:'#34d399',long:'#3b82f6',rev:'#8b5cf6',quest:'#f59e0b'};
+  const miniCtl=(k,label)=>`<div class="pm-mini">
+      <div class="pm-mini-l">${label}</div>
+      <div class="pm-mini-ctl">
+        <button class="pm-mini-b" data-dec="${k}">−</button>
+        <input class="pm-mini-i" data-inp="${k}" type="text" inputmode="numeric" value="${tmp[k]}">
+        <button class="pm-mini-b" data-inc="${k}">+</button>
       </div>
-      ${stepRow('materias','Quantidade de matérias')}
+    </div>`;
+  const render=()=>{
+    tmp.revBlock=Math.min(Math.max(1,tmp.revBlock),tmp.blocks);
+    tmp.qBlock=Math.min(Math.max(1,tmp.qBlock),tmp.blocks);
+    tmp.revTime=Math.min(tmp.revTime,tmp.work);
+    tmp.qTime=Math.min(tmp.qTime,tmp.work);
+    const F=Math.max(1,tmp.blocks);
+    const focoMin=F*tmp.work;
+    // monta o gráfico com teoria + questões + revisão dentro dos blocos
+    const segs=[];
+    for(let f=1; f<=F; f++){
+      const isQ=(f===tmp.qBlock && tmp.qTime>0), isR=(f===tmp.revBlock && tmp.revTime>0);
+      const qt=isQ?Math.min(tmp.qTime,tmp.work):0;
+      const rt=isR?Math.min(tmp.revTime,tmp.work-qt):0;
+      const theory=Math.max(0,tmp.work-qt-rt);
+      if(theory>0) segs.push({min:theory,type:'work'});
+      if(qt>0) segs.push({min:qt,type:'quest'});
+      if(rt>0) segs.push({min:rt,type:'rev'});
+      if(f<F) segs.push({min: f%4===0?tmp.long:tmp.short, type: f%4===0?'long':'short'});
+    }
+    const bar=segs.map(b=>`<div class="pm-seg" style="flex:${b.min};background:${SEGCOL[b.type]}">${b.min>=12?b.min:''}</div>`).join('');
+    const legend=`
+      <span><i style="background:${SEGCOL.work}"></i>Foco</span>
+      <span><i style="background:${SEGCOL.short}"></i>Pausa</span>
+      <span><i style="background:${SEGCOL.long}"></i>Longa</span>
+      ${tmp.revTime>0?`<span><i style="background:${SEGCOL.rev}"></i>Revisão</span>`:''}
+      ${tmp.qTime>0?`<span><i style="background:${SEGCOL.quest}"></i>Questões</span>`:''}`;
+    showModal(`
+      <div class="pm-title">${isNew?'Novo pomodoro':tmp.month+'º mês'}</div>
+      <div class="pm-summary">
+        <div class="pm-liq"><span class="pm-liq-l">Horas líquidas</span><span class="pm-liq-v">${fmtH(focoMin)}</span></div>
+        <div class="pm-bar">${bar}</div>
+        <div class="pm-legend">${legend}</div>
+      </div>
+      <div class="pm-two">${miniCtl('month','Mês')}${miniCtl('blocks','Blocos')}</div>
+      <div class="pm-sect">
+        <div class="pm-sect-h">Tempos · min</div>
+        <div class="pm-three">${miniCtl('work','Foco')}${miniCtl('short','Pausa')}${miniCtl('long','Longa')}</div>
+      </div>
+      <div class="pm-sect">
+        <div class="pm-sect-h"><span class="pm-tag" style="background:${SEGCOL.rev}"></span>Revisões</div>
+        <div class="pm-two">${miniCtl('revBlock','Bloco nº')}${miniCtl('revTime','Min')}</div>
+        <div class="mt-note">Só entra no calendário quando há matérias a revisar (card Revisões).</div>
+      </div>
+      <div class="pm-sect">
+        <div class="pm-sect-h"><span class="pm-tag" style="background:${SEGCOL.quest}"></span>Questões</div>
+        <div class="pm-two">${miniCtl('qBlock','Bloco nº')}${miniCtl('qTime','Min')}</div>
+        <div class="mt-note">Aparece após o estudo de teoria de cada bloco.</div>
+      </div>
       <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" id="pmSave">Salvar</button>
+      ${isNew?'':`<button class="btn" style="width:100%;justify-content:center;margin-top:8px;color:var(--pink)" id="pmDel">Remover módulo</button>`}
     `);
     const body=document.getElementById('modalBody');
     body.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.dec; tmp[k]=Math.max(LIM[k][0],tmp[k]-LIM[k][2]); render(); }));
     body.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>{ const k=b.dataset.inc; tmp[k]=Math.min(LIM[k][1],tmp[k]+LIM[k][2]); render(); }));
-    document.getElementById('pmSave').addEventListener('click',()=>{ pomoMetas()[i]={...tmp}; save(); closeModal(); renderMetas(); });
+    wireMtInputs(body,tmp,LIM,render);
+    document.getElementById('pmSave').addEventListener('click',()=>{
+      if(isNew) S.pomoMetas.push({...tmp});
+      else S.pomoMetas[i]={...tmp};
+      save(); closeModal(); renderMetas();
+    });
+    { const del=document.getElementById('pmDel'); if(del) del.addEventListener('click',()=>{ S.pomoMetas.splice(i,1); save(); closeModal(); renderMetas(); }); }
   };
   render();
 }
@@ -3391,13 +4341,30 @@ function renderEvo(){
   }
   function dotsFor(valOf,color){ let o=''; data.forEach((d,i)=>{ o+=`<circle cx="${xOf(i).toFixed(1)}" cy="${yOf(valOf(d)).toFixed(1)}" r="3" fill="${color}" stroke="${cssVar('--card')}" stroke-width="1.5"/>`; }); return o; }
   const GREEN='#16b981', RED='#ef4444';
+  const bottomY=(padT+plotH);
+  function area(valOf){
+    const firstX=xOf(0).toFixed(1), lastX=xOf(N-1).toFixed(1);
+    return `${smooth(valOf)} L ${lastX} ${bottomY.toFixed(1)} L ${firstX} ${bottomY.toFixed(1)} Z`;
+  }
+  const defs=`<defs>
+    <linearGradient id="evoGradMeta" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${RED}" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="${RED}" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="evoGradReal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${GREEN}" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="${GREEN}" stop-opacity="0"/>
+    </linearGradient>
+  </defs>`;
+  const areas=`<path d="${area(d=>d.metaVal)}" fill="url(#evoGradMeta)" stroke="none"/>`
+    +`<path d="${area(d=>d.realVal)}" fill="url(#evoGradReal)" stroke="none"/>`;
   const lines=`<path d="${smooth(d=>d.metaVal)}" fill="none" stroke="${RED}" stroke-width="2.5" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/>`
     +`<path d="${smooth(d=>d.realVal)}" fill="none" stroke="${GREEN}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
   const dots=dotsFor(d=>d.realVal,GREEN);
   const totReal=data.reduce((a,b)=>a+b.realVal,0), totMeta=Math.round(data.reduce((a,b)=>a+b.metaVal,0));
   const fmtV=v=>isTempo?fmtH(Math.round(v)):v;
   cont.innerHTML=`
-    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">${grid}${lines}${dots}${xlabels}</svg>
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">${defs}${grid}${areas}${lines}${dots}${xlabels}</svg>
     <div class="evo-legend">
       <button class="evo-leg on" style="--lc:${GREEN}">${isTempo?'Estudado':'Resolvidas'}: ${fmtV(totReal)}</button>
       <button class="evo-leg on" style="--lc:${RED}">Meta: ${fmtV(totMeta)}</button>
@@ -3891,11 +4858,11 @@ function renderTimerBody(){
 
     <label class="reg-check"><input type="checkbox" id="tProgRev"${timerState.progRev?' checked':''}><span>Programar revisões</span></label>
     <div id="revOpts" style="display:${timerState.progRev?'block':'none'}">
-      <div class="reg-hint">Selecione os intervalos de revisão (dias após hoje):</div>
+      <div class="reg-hint">Selecione os módulos de revisão (configurados em Planejamento › Revisões):</div>
       <div class="rev-grid">
-        ${['1','7','30','60','120','245'].map(d=>`
-          <label class="rev-opt${timerState.revSel[d]?' on':''}"><input type="checkbox" data-rev="${d}"${timerState.revSel[d]?' checked':''}><span>${d}d</span></label>
-        `).join('')}
+        ${(S.revisoes&&S.revisoes.length?S.revisoes:[{spacing:1},{spacing:7},{spacing:30}]).map(r=>{ const dd=r.spacing; return `
+          <label class="rev-opt${timerState.revSel[dd]?' on':''}"><input type="checkbox" data-rev="${dd}"${timerState.revSel[dd]?' checked':''}><span>${dd} ${dd===1?'dia':'dias'}</span></label>
+        `;}).join('')}
       </div>
     </div>`;
 }
